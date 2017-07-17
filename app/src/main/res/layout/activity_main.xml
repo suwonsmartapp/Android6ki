@@ -7,14 +7,26 @@
     tools:context="com.example.myapplication.MainActivity">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0"
+        android:background="#ffa9a9"
         android:text="Hello"
         android:textSize="48sp" />
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#66f756"
+        android:text="World"
+        android:textSize="48sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#ffa9a9"
         android:text="World"
         android:textSize="48sp" />
 
