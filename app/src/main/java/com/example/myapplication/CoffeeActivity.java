@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
@@ -15,6 +16,7 @@ public class CoffeeActivity extends AppCompatActivity {
 
     private TextView mQuantityTextView;
     private TextView mPriceTextView;
+    private CheckBox mWippedCreamCheckBox;
     private int mQuantity = DEFAULT_QUANTITY;
 
     private DecimalFormat mFormat = new DecimalFormat("#,##0");
@@ -29,6 +31,7 @@ public class CoffeeActivity extends AppCompatActivity {
         // XML에 있는 View의 레퍼런스를 가져오는 방법
         mQuantityTextView = (TextView) findViewById(R.id.quantity_text);
         mPriceTextView = (TextView) findViewById(R.id.price_text);
+        mWippedCreamCheckBox = (CheckBox) findViewById(R.id.whipped_cream_check);
 
 //        mQuantityTextView.setText(String.valueOf(mQuantity));
         display();
@@ -36,7 +39,12 @@ public class CoffeeActivity extends AppCompatActivity {
 
     private void display() {
         mQuantityTextView.setText("" + mQuantity);
-        mPriceTextView.setText(mFormat.format(mQuantity * COFFEE_PRICE) + "원");
+
+        String message = "휘핑 크림 추가 여부 : " + mWippedCreamCheckBox.isChecked();
+        message += "\n갯수 : " + mQuantity;
+        message += "\n가격 : " + mFormat.format(mQuantity * COFFEE_PRICE) + "원";
+
+        mPriceTextView.setText(message);
     }
 
     public void minusButtonClicked(View view) {
@@ -49,6 +57,10 @@ public class CoffeeActivity extends AppCompatActivity {
 
     public void plusButtonClicked(View view) {
         mQuantity++;
+        display();
+    }
+
+    public void onCheckBoxClicked(View view) {
         display();
     }
 }
