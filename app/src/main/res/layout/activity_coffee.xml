@@ -1,88 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    tools:context="com.example.myapplication.CoffeeActivity">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Toppings"
-        android:textAllCaps="true" />
-
-    <CheckBox
-        android:id="@+id/whipped_cream_check"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:paddingLeft="8dp"
-        android:paddingStart="8dp"
-        android:text="휘핑 크림"
-        android:onClick="onCheckBoxClicked"
-        android:textSize="16sp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Quantity"
-        android:textAllCaps="true" />
-
-    <LinearLayout
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/minus_button"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:onClick="minusButtonClicked"
-            android:text="-" />
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:context="com.example.myapplication.CoffeeActivity">
 
         <TextView
-            android:id="@+id/quantity_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:text="1" />
+            android:text="Toppings"
+            android:textAllCaps="true" />
+
+        <CheckBox
+            android:id="@+id/whipped_cream_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:onClick="onCheckBoxClicked"
+            android:paddingLeft="8dp"
+            android:paddingStart="8dp"
+            android:text="휘핑 크림"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quantity"
+            android:textAllCaps="true" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/minus_button"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:onClick="minusButtonClicked"
+                android:text="-" />
+
+            <TextView
+                android:id="@+id/quantity_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:text="1" />
+
+            <Button
+                android:id="@+id/plus_button"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:onClick="plusButtonClicked"
+                android:text="+" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Price"
+            android:textAllCaps="true" />
+
+        <TextView
+            android:id="@+id/price_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="0원"
+            android:textAllCaps="true"
+            android:textColor="@android:color/black" />
 
         <Button
-            android:id="@+id/plus_button"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:onClick="plusButtonClicked"
-            android:text="+" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="order" />
 
     </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Price"
-        android:textAllCaps="true" />
-
-    <TextView
-        android:id="@+id/price_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="0원"
-        android:textAllCaps="true"
-        android:textColor="@android:color/black" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="order" />
-
-</LinearLayout>
+</ScrollView>
