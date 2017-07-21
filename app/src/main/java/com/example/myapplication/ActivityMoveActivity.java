@@ -9,15 +9,12 @@ import android.widget.Toast;
 
 public class ActivityMoveActivity extends AppCompatActivity {
 
+    public static final int REQUEST_CODE_AGE = 1000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_move);
-
-        if (getIntent() != null) {
-            String message = getIntent().getStringExtra("data");
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-        }
 
         View.OnClickListener listener = new MyClickListner();
         Button button = (Button) findViewById(R.id.coffee_button);
@@ -38,15 +35,28 @@ public class ActivityMoveActivity extends AppCompatActivity {
         findViewById(R.id.send_data_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String message = "최지수씨 열심히 하세요";
+                String message = "최지수씨 몇 살 이에요?";
                 Intent intent = new Intent(ActivityMoveActivity.this,
                         TargetActivity.class);
                 intent.putExtra("data", message);
                 intent.putExtra("age", 10);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE_AGE);
             }
         });
 
+    }
+
+    // startActivityForResult 결과 받는 곳
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE_AGE &&
+                resultCode == RESULT_OK &&
+                data != null) {
+            int age = data.getIntExtra("age", 0);
+            Toast.makeText(this, "" + age, Toast.LENGTH_SHORT).show();
+        }
     }
 
     class MyClickListner implements View.OnClickListener {
