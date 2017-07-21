@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -27,9 +28,14 @@ public class ActivityMoveActivity extends AppCompatActivity {
         findViewById(R.id.basketball_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                // 화면 새로 띄우는 코드
+                Intent intent = new Intent(ActivityMoveActivity.this,
+                        BasketBallActivity.class);
+                startActivity(intent);
             }
         });
+
+        Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
     }
 
     class MyClickListner implements View.OnClickListener {
