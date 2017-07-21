@@ -15,13 +15,6 @@ public class ActivityMoveActivity extends AppCompatActivity {
         setContentView(R.layout.activity_move);
 
         View.OnClickListener listener = new MyClickListner();
-//        View.OnClickListener listener2 = new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(ActivityMoveActivity.this, "잘 된다", Toast.LENGTH_SHORT).show();
-//            }
-//        };
-
         Button button = (Button) findViewById(R.id.coffee_button);
         button.setOnClickListener(listener);
 
@@ -35,7 +28,20 @@ public class ActivityMoveActivity extends AppCompatActivity {
             }
         });
 
-        Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
+
+        // 데이터 전송
+        findViewById(R.id.send_data_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String message = "최지수씨 열심히 하세요";
+                Intent intent = new Intent(ActivityMoveActivity.this,
+                        TargetActivity.class);
+                intent.putExtra("data", message);
+                intent.putExtra("age", 10);
+                startActivity(intent);
+            }
+        });
+
     }
 
     class MyClickListner implements View.OnClickListener {
