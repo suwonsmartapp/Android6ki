@@ -7,22 +7,22 @@
     tools:context="com.example.myapplication.ActivityMoveActivity">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/coffee_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:text="커피 앱"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="103dp"
         android:layout_marginLeft="16dp"
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/basketball_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:text="Button"
+        android:text="농구 앱"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

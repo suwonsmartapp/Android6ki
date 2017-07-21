@@ -14,13 +14,22 @@ public class ActivityMoveActivity extends AppCompatActivity {
         setContentView(R.layout.activity_move);
 
         View.OnClickListener listener = new MyClickListner();
-        View.OnClickListener listener2 = new MyClickListner2();
+//        View.OnClickListener listener2 = new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(ActivityMoveActivity.this, "잘 된다", Toast.LENGTH_SHORT).show();
+//            }
+//        };
 
-        Button button = (Button) findViewById(R.id.button);
+        Button button = (Button) findViewById(R.id.coffee_button);
         button.setOnClickListener(listener);
 
-        Button button2 = (Button) findViewById(R.id.button2);
-        button2.setOnClickListener(listener2);
+        findViewById(R.id.basketball_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     class MyClickListner implements View.OnClickListener {
@@ -31,11 +40,4 @@ public class ActivityMoveActivity extends AppCompatActivity {
         }
     }
 
-    class MyClickListner2 implements View.OnClickListener {
-
-        @Override
-        public void onClick(View v) {
-            Toast.makeText(ActivityMoveActivity.this, "잘 된다", Toast.LENGTH_SHORT).show();
-        }
-    }
 }
