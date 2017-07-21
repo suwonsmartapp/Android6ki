@@ -23,8 +23,11 @@ public class TargetActivity extends AppCompatActivity {
     }
 
     public void onFinishButtonClicked(View view) {
+        Intent intent = new Intent(this, ActivityMoveActivity.class);
+        intent.putExtra("data", "완료");
+        startActivity(intent);
+
         // 액티비티 종
         finish();
-
     }
 }

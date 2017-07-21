@@ -14,6 +14,11 @@ public class ActivityMoveActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_move);
 
+        if (getIntent() != null) {
+            String message = getIntent().getStringExtra("data");
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        }
+
         View.OnClickListener listener = new MyClickListner();
         Button button = (Button) findViewById(R.id.coffee_button);
         button.setOnClickListener(listener);
