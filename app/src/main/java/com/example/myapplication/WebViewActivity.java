@@ -19,14 +19,21 @@ public class WebViewActivity extends AppCompatActivity {
 
         mWebView = (WebView) findViewById(R.id.web_view);
         mUrlEditText = (EditText) findViewById(R.id.url_edit);
+
+        // 요거 해 줘야 된다
+        mWebView.setWebViewClient(new WebViewClient());
+        // Javascript 사용하는 페이지를 볼 수 있게
+        mWebView.getSettings().setJavaScriptEnabled(true);
     }
 
     public void showWebPage(View view) {
         String url = mUrlEditText.getText().toString();
-        mWebView.loadUrl(url);
 
-        // 요거 해 줘야 된다
-        mWebView.setWebViewClient(new WebViewClient());
+        if (url.startsWith("http://") || url.startsWith("https://")) {
+            mWebView.loadUrl(url);
+        } else {
+            mWebView.loadUrl("http://" + url);
+        }
     }
 
     public void goBack(View view) {
