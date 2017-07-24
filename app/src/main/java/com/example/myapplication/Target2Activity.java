@@ -9,8 +9,6 @@ import android.widget.Toast;
 
 public class Target2Activity extends AppCompatActivity implements View.OnClickListener {
 
-    private String mMode;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
