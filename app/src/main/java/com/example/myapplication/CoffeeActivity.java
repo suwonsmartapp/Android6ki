@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -74,5 +75,19 @@ public class CoffeeActivity extends AppCompatActivity {
 
     public void onCheckBoxClicked(View view) {
         display();
+    }
+
+    public void order(View view) {
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        // 요런 것도 됨
+//        intent.setAction(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"master@suwonsmartapp.com"});
+        intent.putExtra(Intent.EXTRA_SUBJECT, "주문이요!!");
+        intent.putExtra(Intent.EXTRA_TEXT, mPriceTextView.getText().toString());
+
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 }
