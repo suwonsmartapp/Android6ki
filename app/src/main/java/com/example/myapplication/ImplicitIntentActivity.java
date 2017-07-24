@@ -29,4 +29,18 @@ public class ImplicitIntentActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
+
+    public void dialPhoneNumber(String phoneNumber) {
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + phoneNumber));
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+    }
+
+    public void dialPhone(View view) {
+        EditText phoneEditText = (EditText) findViewById(R.id.phone_edit);
+
+        dialPhoneNumber(phoneEditText.getText().toString());
+    }
 }
