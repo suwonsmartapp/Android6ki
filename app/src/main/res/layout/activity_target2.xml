@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.myapplication.Target2Activity">
+
+    <Button
+        android:id="@+id/management1_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="고객 관리" />
+
+    <Button
+        android:id="@+id/management2_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="매출 관리" />
+
+    <Button
+        android:id="@+id/management3_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="상품 관리" />
+
+    <Button
+        android:id="@+id/result2_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="결과 2" />
+
+
+</LinearLayout>
