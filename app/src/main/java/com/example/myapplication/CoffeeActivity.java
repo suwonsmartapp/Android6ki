@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -39,6 +40,11 @@ public class CoffeeActivity extends AppCompatActivity {
 
 //        mQuantityTextView.setText(String.valueOf(mQuantity));
         display();
+
+        if (getIntent() != null) {
+            String message = getIntent().getStringExtra(Intent.EXTRA_TEXT);
+            mNameEditText.setText(message);
+        }
     }
 
     private void display() {
