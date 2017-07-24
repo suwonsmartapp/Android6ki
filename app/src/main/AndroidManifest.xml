@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.myapplication">
 
+    <!-- 권한 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,13 +22,13 @@
         <activity
             android:name=".CoffeeActivity"
             android:label="커피 주문">
-
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
+
                 <data android:mimeType="text/plain" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -58,6 +61,13 @@
         </activity>
         <activity android:name=".Target2Activity" />
         <activity android:name=".ImplicitIntentActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".WebViewActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
