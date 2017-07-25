@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_item1"
+        android:icon="@drawable/ic_touch_app_black_24dp"
+        android:title="Item1"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_item2"
+        android:icon="?android:attr/actionModePasteDrawable"
+        android:title="Item2" />
+    <item
+        android:id="@+id/action_item3"
+        android:icon="@drawable/ic_touch_app_black_24dp"
+        android:title="Item3" />
+    <item
+        android:id="@+id/action_item4"
+        android:title="Item4" />
+</menu>
