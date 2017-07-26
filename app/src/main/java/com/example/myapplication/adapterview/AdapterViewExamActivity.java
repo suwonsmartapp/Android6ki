@@ -25,13 +25,7 @@ public class AdapterViewExamActivity extends AppCompatActivity {
         // Data
         ArrayList<People> data = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
-            int picture;
-            if (i % 2 == 0) {
-                picture = R.drawable.girl;
-            } else {
-                picture = R.mipmap.ic_launcher;
-            }
-            People people = new People("아무개 " + i, "전화번호 " + i, picture);
+            People people = new People("아무개 " + i, "전화번호 " + i);
             data.add(people);
         }
 

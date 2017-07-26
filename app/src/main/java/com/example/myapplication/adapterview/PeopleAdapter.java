@@ -74,7 +74,14 @@ public class PeopleAdapter extends BaseAdapter {
         People people = (People) getItem(position);
 
         // 뿌리기
-        holder.image.setImageResource(people.getPicture());
+        int picture;
+        if (position % 2 == 0) {
+            picture = R.drawable.girl;
+        } else {
+            picture = R.mipmap.ic_launcher;
+        }
+//        convertView.setBackgroundColor(Color.GRAY);
+        holder.image.setImageResource(picture);
         holder.name.setText(people.getName());
         holder.phone.setText(people.getPhone());
 
