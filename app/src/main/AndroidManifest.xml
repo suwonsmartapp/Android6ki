@@ -87,7 +87,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignUpMessageActivity"></activity>
+        <activity android:name=".SignUpMessageActivity" />
+        <activity android:name=".adapterview.AdapterViewExamActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
