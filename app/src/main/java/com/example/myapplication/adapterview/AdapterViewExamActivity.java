@@ -2,7 +2,6 @@ package com.example.myapplication.adapterview;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.myapplication.R;
@@ -33,8 +32,7 @@ public class AdapterViewExamActivity extends AppCompatActivity {
         }
 
         // Adapter
-        ArrayAdapter<People> adapter = new ArrayAdapter<People>(AdapterViewExamActivity.this,
-                android.R.layout.simple_list_item_1,
+        PeopleAdapter adapter = new PeopleAdapter(AdapterViewExamActivity.this,
                 data);
 
         listView.setAdapter(adapter);

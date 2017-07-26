@@ -1,8 +1,14 @@
 package com.example.myapplication.adapterview;
 
+import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.example.myapplication.R;
 
 import java.util.List;
 
@@ -13,8 +19,10 @@ import java.util.List;
 public class PeopleAdapter extends BaseAdapter {
 
     private final List<People> mData;
+    private final Context mContext;
 
-    public PeopleAdapter(List<People> data) {
+    public PeopleAdapter(Context context, List<People> data) {
+        mContext = context;
         mData = data;
     }
 
@@ -41,7 +49,21 @@ public class PeopleAdapter extends BaseAdapter {
     // parent - 이 어댑터가 붙을 부모의 레퍼런스 (ListView나 GridView)
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        // 레이아웃 가지고 오기
+        convertView = LayoutInflater.from(mContext)
+                .inflate(R.layout.item_exam, parent, false);
+        ImageView imageView = (ImageView) convertView.findViewById(R.id.image_view);
+        TextView nameTextView = (TextView) convertView.findViewById(R.id.name_text);
+        TextView phoneTextView = (TextView) convertView.findViewById(R.id.phone_text);
 
-        return null;
+        // data
+        People people = (People) getItem(position);
+
+        // 뿌리기
+        imageView.setImageResource(people.getPicture());
+        nameTextView.setText(people.getName());
+        phoneTextView.setText(people.getPhone());
+
+        return convertView;
     }
 }
