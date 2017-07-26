@@ -2,7 +2,9 @@ package com.example.myapplication.adapterview;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import com.example.myapplication.R;
 
@@ -17,6 +19,8 @@ public class AdapterViewExamActivity extends AppCompatActivity {
 
         // View
         ListView listView = (ListView) findViewById(R.id.list_view);
+        GridView gridView = (GridView) findViewById(R.id.grid_view);
+        Spinner spinner = (Spinner) findViewById(R.id.spinner);
 
         // Data
         ArrayList<People> data = new ArrayList<>();
@@ -36,5 +40,8 @@ public class AdapterViewExamActivity extends AppCompatActivity {
                 data);
 
         listView.setAdapter(adapter);
+
+        gridView.setAdapter(adapter);
+        spinner.setAdapter(adapter);
     }
 }
