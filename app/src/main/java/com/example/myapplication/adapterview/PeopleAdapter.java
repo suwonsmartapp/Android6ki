@@ -1,6 +1,7 @@
 package com.example.myapplication.adapterview;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ import java.util.List;
  */
 
 public class PeopleAdapter extends BaseAdapter {
+
+    private final String TAG = PeopleAdapter.class.getSimpleName();
 
     private final List<People> mData;
     private final Context mContext;
@@ -51,6 +54,7 @@ public class PeopleAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
+            Log.d(TAG, "getView 최초 : " + position);
             // 최초
             convertView = LayoutInflater.from(mContext)
                     .inflate(R.layout.item_exam, parent, false);
@@ -67,6 +71,7 @@ public class PeopleAdapter extends BaseAdapter {
             convertView.setTag(holder);
         } else {
             // 재사용
+            Log.d(TAG, "getView 재사용 : " + position);
             holder = (ViewHolder) convertView.getTag();
         }
 
