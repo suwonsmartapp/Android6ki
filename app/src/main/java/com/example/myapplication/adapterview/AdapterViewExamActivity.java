@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,6 +22,9 @@ import java.util.ArrayList;
 public class AdapterViewExamActivity extends AppCompatActivity {
 
     private static final String TAG = AdapterViewExamActivity.class.getSimpleName();
+    private ArrayList<People> mPeoPleData;
+    private PeopleAdapter mAdapter;
+    private ListView mListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,12 +32,12 @@ public class AdapterViewExamActivity extends AppCompatActivity {
         setContentView(R.layout.activity_adapter_view_exam);
 
         // View
-        ListView listView = (ListView) findViewById(R.id.list_view);
+        mListView = (ListView) findViewById(R.id.list_view);
         GridView gridView = (GridView) findViewById(R.id.grid_view);
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
 
         // Data
-        ArrayList<People> data = new ArrayList<>();
+        mPeoPleData = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             int picture;
             if (i % 2 == 0) {
@@ -41,21 +46,21 @@ public class AdapterViewExamActivity extends AppCompatActivity {
                 picture = R.mipmap.ic_launcher;
             }
             People people = new People("아무개 " + i, "전화번호 " + i, picture);
-            data.add(people);
+            mPeoPleData.add(people);
         }
 
         // Adapter
-        PeopleAdapter adapter = new PeopleAdapter(AdapterViewExamActivity.this,
-                data);
+        mAdapter = new PeopleAdapter(AdapterViewExamActivity.this,
+                mPeoPleData);
 
-        listView.setAdapter(adapter);
+        mListView.setAdapter(mAdapter);
 
 //        gridView.setAdapter(adapter);
 //        spinner.setAdapter(adapter);
 
 
         // OnItemClickListener
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 People people = (People) parent.getAdapter().getItem(position);
@@ -75,15 +80,17 @@ public class AdapterViewExamActivity extends AppCompatActivity {
         });
 
         //
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(AdapterViewExamActivity.this, "롱 클릭 " + position, Toast.LENGTH_SHORT).show();
-                return true;       // 이벤트 소비를 하겠다. 더 이상 이벤트가 흘러가지 않는다
-            }
-        });
+//        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+//                Toast.makeText(AdapterViewExamActivity.this, "롱 클릭 " + position, Toast.LENGTH_SHORT).show();
+//                return true;       // 이벤트 소비를 하겠다. 더 이상 이벤트가 흘러가지 않는다
+//            }
+//        });
 
 
+        // Context 메뉴 연결
+        registerForContextMenu(mListView);
     }
 
     @Override
@@ -116,4 +123,31 @@ public class AdapterViewExamActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_coffee, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        switch (item.getItemId()) {
+            case R.id.action_item1:
+                Toast.makeText(this, "action 1", Toast.LENGTH_SHORT).show();
+                // 삭제
+                mPeoPleData.remove(info.position);
+                // 업데이트
+                mAdapter.notifyDataSetChanged();
+
+                return true;
+            case R.id.action_item2:
+                Toast.makeText(this, "action 2", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
 }
