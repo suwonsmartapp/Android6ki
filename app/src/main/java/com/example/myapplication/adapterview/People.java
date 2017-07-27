@@ -9,9 +9,10 @@ public class People {
     private String phone;
     private int picture;
 
-    public People(String name, String phone) {
+    public People(String name, String phone, int picture) {
         this.name = name;
         this.phone = phone;
+        this.picture = picture;
     }
 
     public String getName() {
