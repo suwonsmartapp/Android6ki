@@ -21,6 +21,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
+import com.example.myapplication.util.DialogUtil;
 
 import java.util.ArrayList;
 
@@ -191,25 +192,23 @@ public class AdapterViewExamActivity extends AppCompatActivity implements Dialog
     }
 
     private void showDefaultDialog(final AdapterView.AdapterContextMenuInfo info) {
-        // 물어보자 AlertDialog
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("삭제");
-        builder.setMessage("정말로 삭제하시겠습니까?");
-        // 바깥 부분 클릭 했을 때 닫기
-        builder.setCancelable(false);
-        builder.setPositiveButton("삭제", new DialogInterface.OnClickListener() {
+
+        DialogUtil.createAlertDialog(this, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // 삭제
-                mPeopleData.remove(info.position);
-                // 업데이트
-                mAdapter.notifyDataSetChanged();
+                switch (which) {
+                    case DialogInterface.BUTTON_POSITIVE:
+                        // 삭제
+                        mPeopleData.remove(info.position);
+                        // 업데이트
+                        mAdapter.notifyDataSetChanged();
+                        break;
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        break;
+                }
             }
-        });
-        builder.setNegativeButton("아니오", this);
-        builder.setIcon(R.drawable.girl);
+        }).show();
 
-        builder.create().show();
     }
 
     @Override
