@@ -151,35 +151,65 @@ public class AdapterViewExamActivity extends AppCompatActivity implements Dialog
         switch (item.getItemId()) {
             case R.id.action_item1:
                 Toast.makeText(this, "action 1", Toast.LENGTH_SHORT).show();
-
-                // 물어보자 AlertDialog
-                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("삭제");
-                builder.setMessage("정말로 삭제하시겠습니까?");
-                // 바깥 부분 클릭 했을 때 닫기
-                builder.setCancelable(false);
-                builder.setPositiveButton("삭제", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // 삭제
-                        mPeopleData.remove(info.position);
-                        // 업데이트
-                        mAdapter.notifyDataSetChanged();
-                    }
-                });
-                builder.setNegativeButton("아니오", this);
-                builder.setIcon(R.drawable.girl);
-
-                builder.create().show();
-
-
+                showDefaultDialog(info);
                 return true;
             case R.id.action_item2:
                 Toast.makeText(this, "action 2", Toast.LENGTH_SHORT).show();
+                showCustomDialog();
                 return true;
             default:
                 return super.onContextItemSelected(item);
         }
+    }
+
+    private void showCustomDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        View view = getLayoutInflater()
+                .inflate(R.layout.dialog_signin, null, false);
+        builder.setView(view);
+
+        final AlertDialog dialog = builder.create();
+
+        view.findViewById(R.id.positive_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(AdapterViewExamActivity.this, "잘 눌림", Toast.LENGTH_SHORT).show();
+
+                // 다이얼로그 닫기
+                dialog.dismiss();
+            }
+        });
+        view.findViewById(R.id.negative_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+    private void showDefaultDialog(final AdapterView.AdapterContextMenuInfo info) {
+        // 물어보자 AlertDialog
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("삭제");
+        builder.setMessage("정말로 삭제하시겠습니까?");
+        // 바깥 부분 클릭 했을 때 닫기
+        builder.setCancelable(false);
+        builder.setPositiveButton("삭제", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // 삭제
+                mPeopleData.remove(info.position);
+                // 업데이트
+                mAdapter.notifyDataSetChanged();
+            }
+        });
+        builder.setNegativeButton("아니오", this);
+        builder.setIcon(R.drawable.girl);
+
+        builder.create().show();
     }
 
     @Override
