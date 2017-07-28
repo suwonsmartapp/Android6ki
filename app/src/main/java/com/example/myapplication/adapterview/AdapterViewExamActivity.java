@@ -1,9 +1,11 @@
 package com.example.myapplication.adapterview;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -22,7 +24,7 @@ import com.example.myapplication.R;
 
 import java.util.ArrayList;
 
-public class AdapterViewExamActivity extends AppCompatActivity {
+public class AdapterViewExamActivity extends AppCompatActivity implements DialogInterface.OnClickListener {
 
     private static final String TAG = AdapterViewExamActivity.class.getSimpleName();
     private ArrayList<People> mPeopleData;
@@ -145,14 +147,31 @@ public class AdapterViewExamActivity extends AppCompatActivity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
             case R.id.action_item1:
                 Toast.makeText(this, "action 1", Toast.LENGTH_SHORT).show();
-                // 삭제
-                mPeopleData.remove(info.position);
-                // 업데이트
-                mAdapter.notifyDataSetChanged();
+
+                // 물어보자 AlertDialog
+                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("삭제");
+                builder.setMessage("정말로 삭제하시겠습니까?");
+                // 바깥 부분 클릭 했을 때 닫기
+                builder.setCancelable(false);
+                builder.setPositiveButton("삭제", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // 삭제
+                        mPeopleData.remove(info.position);
+                        // 업데이트
+                        mAdapter.notifyDataSetChanged();
+                    }
+                });
+                builder.setNegativeButton("아니오", this);
+                builder.setIcon(R.drawable.girl);
+
+                builder.create().show();
+
 
                 return true;
             case R.id.action_item2:
@@ -175,5 +194,15 @@ public class AdapterViewExamActivity extends AppCompatActivity {
 
         // 뒤로 가기
         super.onBackPressed();
+    }
+
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        switch (which) {
+            case DialogInterface.BUTTON_POSITIVE:
+                break;
+            case DialogInterface.BUTTON_NEGATIVE:
+                break;
+        }
     }
 }
