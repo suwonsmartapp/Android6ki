@@ -1,7 +1,9 @@
 package com.example.myapplication.adapterview;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -10,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -22,9 +25,10 @@ import java.util.ArrayList;
 public class AdapterViewExamActivity extends AppCompatActivity {
 
     private static final String TAG = AdapterViewExamActivity.class.getSimpleName();
-    private ArrayList<People> mPeoPleData;
+    private ArrayList<People> mPeopleData;
     private PeopleAdapter mAdapter;
     private ListView mListView;
+    private EditText mWeatherEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +41,7 @@ public class AdapterViewExamActivity extends AppCompatActivity {
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
 
         // Data
-        mPeoPleData = new ArrayList<>();
+        mPeopleData = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             int picture;
             if (i % 2 == 0) {
@@ -46,12 +50,12 @@ public class AdapterViewExamActivity extends AppCompatActivity {
                 picture = R.mipmap.ic_launcher;
             }
             People people = new People("아무개 " + i, "전화번호 " + i, picture);
-            mPeoPleData.add(people);
+            mPeopleData.add(people);
         }
 
         // Adapter
         mAdapter = new PeopleAdapter(AdapterViewExamActivity.this,
-                mPeoPleData);
+                mPeopleData);
 
         mListView.setAdapter(mAdapter);
 
@@ -91,6 +95,14 @@ public class AdapterViewExamActivity extends AppCompatActivity {
 
         // Context 메뉴 연결
         registerForContextMenu(mListView);
+
+
+        // SharedPreference 데이터 복원
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        String weather = settings.getString("weather", "맑음");
+
+        mWeatherEditText = (EditText) findViewById(R.id.weather_edit);
+        mWeatherEditText.setText(weather);
     }
 
     @Override
@@ -138,7 +150,7 @@ public class AdapterViewExamActivity extends AppCompatActivity {
             case R.id.action_item1:
                 Toast.makeText(this, "action 1", Toast.LENGTH_SHORT).show();
                 // 삭제
-                mPeoPleData.remove(info.position);
+                mPeopleData.remove(info.position);
                 // 업데이트
                 mAdapter.notifyDataSetChanged();
 
@@ -149,5 +161,19 @@ public class AdapterViewExamActivity extends AppCompatActivity {
             default:
                 return super.onContextItemSelected(item);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        // 저장
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("weather", mWeatherEditText.getText().toString());
+
+        // Commit the edits!    비동기
+        editor.apply();
+
+        // 뒤로 가기
+        super.onBackPressed();
     }
 }
