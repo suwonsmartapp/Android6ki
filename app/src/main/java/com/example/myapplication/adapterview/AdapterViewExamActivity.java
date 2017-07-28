@@ -2,9 +2,7 @@ package com.example.myapplication.adapterview;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -22,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.example.myapplication.util.DialogUtil;
+import com.example.myapplication.util.SharePreferenceUtil;
 
 import java.util.ArrayList;
 
@@ -99,11 +98,8 @@ public class AdapterViewExamActivity extends AppCompatActivity implements Dialog
         // Context 메뉴 연결
         registerForContextMenu(mListView);
 
-
+        String weather = SharePreferenceUtil.restoreWeather(this);
         // SharedPreference 데이터 복원
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-        String weather = settings.getString("weather", "맑음");
-
         mWeatherEditText = (EditText) findViewById(R.id.weather_edit);
         mWeatherEditText.setText(weather);
     }
@@ -214,12 +210,7 @@ public class AdapterViewExamActivity extends AppCompatActivity implements Dialog
     @Override
     public void onBackPressed() {
         // 저장
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString("weather", mWeatherEditText.getText().toString());
-
-        // Commit the edits!    비동기
-        editor.apply();
+        SharePreferenceUtil.saveWeather(this, mWeatherEditText.getText().toString());
 
         // 뒤로 가기
         super.onBackPressed();
