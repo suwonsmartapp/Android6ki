@@ -18,6 +18,15 @@ public class BasketBallActivity extends AppCompatActivity {
 
         mScoreATextView = (TextView) findViewById(R.id.score_a_text);
         mScoreBTextView = (TextView) findViewById(R.id.score_b_text);
+
+        if (savedInstanceState != null) {
+            // 복원
+            mScoreA = savedInstanceState.getInt("a");
+            mScoreB = savedInstanceState.getInt("b");
+
+            mScoreATextView.setText("" + mScoreA);
+            mScoreBTextView.setText("" + mScoreB);
+        }
     }
 
     public void onButtonClicked(View view) {
@@ -59,15 +68,15 @@ public class BasketBallActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-
-        // 복원
-        mScoreA = savedInstanceState.getInt("a");
-        mScoreB = savedInstanceState.getInt("b");
-
-        mScoreATextView.setText("" + mScoreA);
-        mScoreBTextView.setText("" + mScoreB);
-    }
+//    @Override
+//    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+//        super.onRestoreInstanceState(savedInstanceState);
+//
+//        // 복원
+//        mScoreA = savedInstanceState.getInt("a");
+//        mScoreB = savedInstanceState.getInt("b");
+//
+//        mScoreATextView.setText("" + mScoreA);
+//        mScoreBTextView.setText("" + mScoreB);
+//    }
 }
