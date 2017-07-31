@@ -12,4 +12,11 @@
         android:layout_height="wrap_content"
         android:text="다이얼로그" />
 
+    <Button
+        android:id="@+id/number_button"
+        android:onClick="increment"
+        android:text="0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 </LinearLayout>
