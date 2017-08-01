@@ -16,7 +16,7 @@ public class BasketBallActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basket_ball);
 
-        mScoreATextView = (TextView) findViewById(R.id.score_a_text);
+        mScoreATextView = (TextView) findViewById(R.id.score_text);
         mScoreBTextView = (TextView) findViewById(R.id.score_b_text);
 
         if (savedInstanceState != null) {

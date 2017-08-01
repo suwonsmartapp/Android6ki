@@ -24,7 +24,7 @@
                 android:text="Team A" />
 
             <TextView
-                android:id="@+id/score_a_text"
+                android:id="@+id/score_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"

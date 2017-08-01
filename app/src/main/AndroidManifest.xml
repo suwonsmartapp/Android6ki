@@ -21,7 +21,8 @@
         </activity>
         <activity
             android:name=".CoffeeActivity"
-            android:label="커피 주문">
+            android:label="커피 주문"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 
@@ -97,6 +98,13 @@
         </activity>
         <activity android:name=".adapterview.DetailAddressActivity" />
         <activity android:name=".LifeCycleActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".fragment.basketball.BasketBallActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
