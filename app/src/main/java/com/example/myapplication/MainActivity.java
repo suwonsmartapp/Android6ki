@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.myapplication.adapterview.AdapterViewExamActivity;
 import com.example.myapplication.fragment.color.ColorActivity;
+import com.example.myapplication.fragment.exam.CallbackExamActivity;
 import com.example.myapplication.fragment.exam.ColorExamActivity;
 
 import java.util.ArrayList;
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         addItem("농구 앱 프래그먼트 버전", "Fragment, Callback", com.example.myapplication.fragment.basketball.BasketBallActivity.class);
         addItem("프래그먼트 동적 생성", "코드로 Fragment 생성", ColorActivity.class);
         addItem("과제 : 컬러 프래그먼트", "프래그먼트 추가, 제거", ColorExamActivity.class);
+        addItem("과제 : 콜백", "액티비티와 프래그먼트 통신", CallbackExamActivity.class);
 
         // 순서 뒤집기
         Collections.reverse(mDataList);
