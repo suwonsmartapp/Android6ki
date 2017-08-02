@@ -30,101 +30,30 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".BasketBallActivity"
-            android:label="농구 점수">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".ActivityMoveActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:label="농구 점수" />
+        <activity android:name=".ActivityMoveActivity" />
         <activity android:name=".TargetActivity" />
         <activity
             android:name=".LoginActivity"
-            android:label="로그인">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:label="로그인" />
         <activity android:name=".Target2Activity" />
         <activity
             android:name=".ImplicitIntentActivity"
-            android:label="암시적 인텐트">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:label="암시적 인텐트" />
         <activity
             android:name=".WebViewActivity"
-            android:label="웹 뷰">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".SignUpActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:label="웹 뷰" />
+        <activity android:name=".SignUpActivity" />
         <activity android:name=".SignUpMessageActivity" />
-        <activity android:name=".adapterview.AdapterViewExamActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".adapterview.AdapterViewExamActivity" />
         <activity android:name=".adapterview.DetailAddressActivity" />
-        <activity android:name=".LifeCycleActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".fragment.basketball.BasketBallActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".fragment.color.ColorActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".fragment.exam.ColorExamActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".LifeCycleActivity" />
+        <activity android:name=".fragment.basketball.BasketBallActivity" />
+        <activity android:name=".fragment.color.ColorActivity" />
+        <activity android:name=".fragment.exam.ColorExamActivity" />
     </application>
 
 </manifest>
