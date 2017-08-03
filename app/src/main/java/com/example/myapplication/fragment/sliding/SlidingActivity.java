@@ -48,7 +48,7 @@ public class SlidingActivity extends AppCompatActivity implements BasketScoreFra
 
     private static class MyPagerAdapter extends FragmentPagerAdapter {
 
-        public static final int PAGE_NUM = 3;
+        public static final int PAGE_NUM = 10;
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -78,13 +78,13 @@ public class SlidingActivity extends AppCompatActivity implements BasketScoreFra
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "농구";
+                    return "농구~~~~~~~~~~!";
                 case 1:
                     return "컬러";
                 case 2:
                     return "채팅";
             }
-            return super.getPageTitle(position);
+            return "등등등";
         }
     }
 }
