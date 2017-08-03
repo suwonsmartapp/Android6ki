@@ -54,7 +54,8 @@
         <activity android:name=".fragment.basketball.BasketBallActivity" />
         <activity android:name=".fragment.color.ColorActivity" />
         <activity android:name=".fragment.exam.ColorExamActivity" />
-        <activity android:name=".fragment.exam.CallbackExamActivity"></activity>
+        <activity android:name=".fragment.exam.CallbackExamActivity" />
+        <activity android:name=".fragment.sliding.SlidingActivity"></activity>
     </application>
 
 </manifest>

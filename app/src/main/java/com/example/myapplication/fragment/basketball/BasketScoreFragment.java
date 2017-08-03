@@ -5,12 +5,15 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.myapplication.R;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by junsuk on 2017. 8. 1..
@@ -33,13 +36,19 @@ public class BasketScoreFragment extends Fragment implements View.OnClickListene
         super.onAttach(context);
 
         // 액티비티와 연결 됨
-        mListener = (OnWarningListener) context;
+        if (context instanceof OnWarningListener) {
+            mListener = (OnWarningListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + "OnWarningListener를 구현해 주세요");
+        }
     }
 
     // 뷰를 만드는 곳
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView: ");
         return inflater.inflate(R.layout.fragment_basket_score, container, false);
     }
 

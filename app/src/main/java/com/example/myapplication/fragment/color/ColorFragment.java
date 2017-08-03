@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ import java.util.Random;
  * A simple {@link Fragment} subclass.
  */
 public class ColorFragment extends Fragment {
+
+    private static final String TAG = ColorFragment.class.getSimpleName();
 
     // 프래그먼트는 반드시 빈 생성자만 있어야 한다
     public ColorFragment() {
@@ -52,6 +55,7 @@ public class ColorFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        Log.d(TAG, "onCreateView: ");
         return inflater.inflate(R.layout.fragment_color, container, false);
     }
 
