@@ -1,6 +1,7 @@
 package com.example.myapplication.fragment.sliding;
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -21,6 +22,8 @@ public class SlidingActivity extends AppCompatActivity implements BasketScoreFra
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sliding);
 
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab);
+
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
 
         MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
@@ -29,6 +32,8 @@ public class SlidingActivity extends AppCompatActivity implements BasketScoreFra
 
         // 최소 유지 페이지 수
 //        viewPager.setOffscreenPageLimit(10);
+
+        tabLayout.setupWithViewPager(viewPager);
     }
 
     @Override
@@ -43,7 +48,7 @@ public class SlidingActivity extends AppCompatActivity implements BasketScoreFra
 
     private static class MyPagerAdapter extends FragmentPagerAdapter {
 
-        public static final int PAGE_NUM = 10;
+        public static final int PAGE_NUM = 3;
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -67,6 +72,19 @@ public class SlidingActivity extends AppCompatActivity implements BasketScoreFra
         @Override
         public int getCount() {
             return PAGE_NUM;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return "농구";
+                case 1:
+                    return "컬러";
+                case 2:
+                    return "채팅";
+            }
+            return super.getPageTitle(position);
         }
     }
 }
