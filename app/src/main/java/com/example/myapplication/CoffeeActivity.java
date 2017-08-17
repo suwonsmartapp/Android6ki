@@ -59,7 +59,7 @@ public class CoffeeActivity extends AppCompatActivity {
         message += "\n====================";
         message += "\n휘핑 크림 추가 여부 : " + mWippedCreamCheckBox.isChecked();
         message += "\n갯수 : " + mQuantity;
-        message += "\n가격 : " + mFormat.format(mQuantity * COFFEE_PRICE) + "원";
+        message += "\n가격 : " + String.format(getString(R.string.result_price), mFormat.format(mQuantity * COFFEE_PRICE));
 
         mPriceTextView.setText(message);
     }

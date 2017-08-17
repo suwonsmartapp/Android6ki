@@ -3,7 +3,7 @@
     <string name="app_name">My Application</string>
     <string name="buyer">주문자</string>
     <string name="cream">휘핑 크림</string>
-    <string name="result_price">0원</string>
+    <string name="result_price">%1$s 원</string>
     <string name="toppings">토핑</string>
     <string name="quantity">수량</string>
     <string name="price">가격</string>
