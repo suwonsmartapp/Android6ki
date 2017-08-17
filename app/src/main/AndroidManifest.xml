@@ -55,7 +55,8 @@
         <activity android:name=".fragment.color.ColorActivity" />
         <activity android:name=".fragment.exam.ColorExamActivity" />
         <activity android:name=".fragment.exam.CallbackExamActivity" />
-        <activity android:name=".fragment.sliding.SlidingActivity"></activity>
+        <activity android:name=".fragment.sliding.SlidingActivity" />
+        <activity android:name=".flexibleUI.NewsActivity"></activity>
     </application>
 
 </manifest>

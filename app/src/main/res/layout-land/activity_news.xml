@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.myapplication.flexibleUI.NewsActivity">
+
+    <fragment
+        android:id="@+id/frag_a"
+        android:name="com.example.myapplication.flexibleUI.FragmentA"
+        android:layout_width="200dp"
+        android:layout_height="match_parent" />
+
+    <fragment
+        android:id="@+id/frag_b"
+        android:name="com.example.myapplication.flexibleUI.FragmentB"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout="@layout/fragment_article" />
+
+</LinearLayout>
