@@ -29,12 +29,6 @@ public class NewsActivity extends AppCompatActivity implements FragmentA.OnHeadl
             // 가로
             mFragmentB = (FragmentB) getSupportFragmentManager()
                     .findFragmentById(R.id.frag_b);
-
-            if (savedInstanceState != null) {
-                // 복원
-                int position = savedInstanceState.getInt("position");
-                mFragmentB.updateArticleView(position);
-            }
         }
     }
 
@@ -52,12 +46,4 @@ public class NewsActivity extends AppCompatActivity implements FragmentA.OnHeadl
         }
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        if (mFragmentB != null) {
-            outState.putInt("position", mFragmentB.getCurrentPosition());
-        }
-    }
 }

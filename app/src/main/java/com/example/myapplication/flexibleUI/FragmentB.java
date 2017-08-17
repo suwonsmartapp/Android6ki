@@ -56,6 +56,8 @@ public class FragmentB extends Fragment {
     }
 
     public void updateArticleView(int position) {
+        mCurrentPosition = position;
+
         TextView textView = (TextView) getView().findViewById(R.id.article_text);
         textView.setText(Articles.Articles[position]);
     }
@@ -68,7 +70,4 @@ public class FragmentB extends Fragment {
         outState.putInt(POSITION, mCurrentPosition);
     }
 
-    public int getCurrentPosition() {
-        return mCurrentPosition;
-    }
 }
