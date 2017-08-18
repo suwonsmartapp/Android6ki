@@ -35,7 +35,15 @@
             android:name=".BasketBallActivity"
             android:label="농구 점수" />
         <activity android:name=".ActivityMoveActivity" />
-        <activity android:name=".TargetActivity" />
+        <activity
+            android:name=".TargetActivity"
+            android:parentActivityName=".ActivityMoveActivity">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ActivityMoveActivity" />
+        </activity>
         <activity
             android:name=".LoginActivity"
             android:label="로그인" />
