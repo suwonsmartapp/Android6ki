@@ -1,7 +1,8 @@
 package com.suwonsmartapp.warikang;
 
-import android.net.Uri;
 import android.util.Log;
+
+import com.suwonsmartapp.warikang.models.Warikan;
 
 /**
  * Created by junsuk on 2017. 8. 21..
@@ -11,9 +12,11 @@ public class WarikanPresenter implements WarikanContract.UserActionListener {
     public static final String TAG = WarikanPresenter.class.getSimpleName();
 
     private WarikanContract.View mView;
+    private Warikan mModel;
 
     public WarikanPresenter(WarikanContract.View view) {
-        this.mView = view;
+        mModel = new Warikan();
+        mView = view;
     }
 
     @Override
@@ -46,9 +49,21 @@ public class WarikanPresenter implements WarikanContract.UserActionListener {
     }
 
     @Override
-    public void calculate(int totalPrice, int memberCount, int pricePerOne, Uri image, String comment) {
+    public void calculate(int totalPrice, int memberCount) {
         Log.d(TAG, "calculate: ");
         // Model 에서 계산 (Calculator)
-        mView.shareResult("", "");
+
+        mModel.setTotalPrice(totalPrice);
+        mModel.setPeopleCount(memberCount);
+
+        mView.showResult(mModel.calculate());
+
+//        StringBuilder builder = new StringBuilder();
+//        builder.append("총 금액 : ").append(totalPrice)
+//                .append("\n인원 수 : ").append(memberCount)
+//                .append("\n=============")
+//                .append("\n낼 금액 ").append(mModel.calculate());
+//
+//        mView.shareResult(builder.toString(), "");
     }
 }

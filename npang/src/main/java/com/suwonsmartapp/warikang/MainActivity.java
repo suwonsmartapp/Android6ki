@@ -11,7 +11,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        initFragment(new WarikanFragment());
+        if (savedInstanceState == null) {
+            initFragment(new WarikanFragment());
+        }
     }
 
     private void initFragment(Fragment fragment) {

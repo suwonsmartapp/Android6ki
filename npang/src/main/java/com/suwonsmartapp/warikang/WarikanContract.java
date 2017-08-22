@@ -1,6 +1,5 @@
 package com.suwonsmartapp.warikang;
 
-import android.net.Uri;
 import android.support.annotation.NonNull;
 
 /**
@@ -17,6 +16,8 @@ public interface WarikanContract {
         void showImageError();
 
         void shareResult(String result, String image);
+
+        void showResult(int price);
     }
 
     interface UserActionListener {
@@ -26,6 +27,6 @@ public interface WarikanContract {
 
         void imageCaptureFailed();
 
-        void calculate(int totalPrice, int memberCount, int pricePerOne, Uri image, String comment);
+        void calculate(int totalPrice, int memberCount);
     }
 }
