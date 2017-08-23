@@ -1,1 +1,1 @@
-include ':app', ':npang'
+include ':app', ':npang', ':broadcastreceiver'
