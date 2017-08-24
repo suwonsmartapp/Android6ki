@@ -17,15 +17,16 @@
             </intent-filter>
         </activity>
 
-        <receiver
-            android:name=".MyReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
-                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
-            </intent-filter>
-        </receiver>
+        <!--<receiver-->
+            <!--android:name=".MyReceiver"-->
+            <!--android:enabled="true"-->
+            <!--android:exported="true">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.ACTION_POWER_CONNECTED" />-->
+                <!--<action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />-->
+                <!--<action android:name="com.suwonsmartapp.broadcastreceiver.action.MY_ACTION" />-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
     </application>
 
 </manifest>
