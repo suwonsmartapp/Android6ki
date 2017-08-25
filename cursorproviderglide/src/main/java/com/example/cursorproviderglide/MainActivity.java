@@ -4,7 +4,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.GridView;
 
 public class MainActivity extends AppCompatActivity {
@@ -20,19 +19,15 @@ public class MainActivity extends AppCompatActivity {
 
         mGridView = (GridView) findViewById(R.id.grid_view);
 
+        // 권한 요청
         Cursor cursor = getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 null,
                 null,
                 null,
                 null);
 
-        cursor.moveToFirst();
-        while (cursor.moveToNext()) {
-            Log.d(TAG, "onCreate: " + cursor.toString());
-        }
+        MyPhotoCursorAdapter adapter = new MyPhotoCursorAdapter(MainActivity.this, cursor);
 
-        if (cursor != null) {
-            cursor.close();
-        }
+        mGridView.setAdapter(adapter);
     }
 }
