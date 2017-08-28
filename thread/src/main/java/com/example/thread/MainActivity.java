@@ -44,10 +44,13 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, "run: " + i);
                         mProgressBar.setProgress(i + 1);
 
-                        Message msg = Message.obtain();
-                        msg.arg1 = i;
-
-                        mHandler.sendMessage(msg);
+                        final int percent = i + 1;
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mPercentTextView.setText(percent + "%");
+                            }
+                        });
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
