@@ -1,1 +1,1 @@
-include ':app', ':npang', ':broadcastreceiver', ':cursorproviderglide'
+include ':app', ':npang', ':broadcastreceiver', ':cursorproviderglide', ':thread'
