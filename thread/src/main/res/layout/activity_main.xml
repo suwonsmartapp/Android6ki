@@ -26,4 +26,10 @@
         android:text="다운로드" />
 
 
+    <Button
+        android:onClick="오초_뒤에_토스트_띄우기"
+        android:text="5초 뒤에 토스트 띄우기"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 </LinearLayout>
