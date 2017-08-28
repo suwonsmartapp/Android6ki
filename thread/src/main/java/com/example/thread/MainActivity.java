@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
                         mProgressBar.setProgress(i + 1);
 
                         final int percent = i + 1;
-                        runOnUiThread(new Runnable() {
+                        mPercentTextView.post(new Runnable() {
                             @Override
                             public void run() {
                                 mPercentTextView.setText(percent + "%");
