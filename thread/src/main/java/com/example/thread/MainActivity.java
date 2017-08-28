@@ -2,6 +2,7 @@ package com.example.thread;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -45,7 +46,8 @@ public class MainActivity extends AppCompatActivity {
                         mProgressBar.setProgress(i + 1);
 
                         final int percent = i + 1;
-                        mPercentTextView.post(new Runnable() {
+
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
                             @Override
                             public void run() {
                                 mPercentTextView.setText(percent + "%");
