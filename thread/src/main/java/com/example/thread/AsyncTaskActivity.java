@@ -67,11 +67,6 @@ public class AsyncTaskActivity extends AppCompatActivity {
             super.onCancelled(aVoid);
         }
 
-        @Override
-        protected void onCancelled() {
-            super.onCancelled();
-        }
-
         @WorkerThread
         @Override
         protected Void doInBackground(Void... voids) {
