@@ -1,10 +1,13 @@
 package com.example.memonodb.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by junsuk on 2017. 8. 31..
  */
 
-public class Memo {
+public class Memo implements Parcelable {
     private String title;
     private String memo;
 
@@ -37,4 +40,33 @@ public class Memo {
         sb.append('}');
         return sb.toString();
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.title);
+        dest.writeString(this.memo);
+    }
+
+    protected Memo(Parcel in) {
+        this.title = in.readString();
+        this.memo = in.readString();
+    }
+
+    public static final Creator<Memo> CREATOR = new Creator<Memo>() {
+        @Override
+        public Memo createFromParcel(Parcel source) {
+            return new Memo(source);
+        }
+
+        @Override
+        public Memo[] newArray(int size) {
+            return new Memo[size];
+        }
+    };
 }

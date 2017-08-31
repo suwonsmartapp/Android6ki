@@ -16,17 +16,25 @@ import java.util.List;
 
 public class MemoListFragment extends ListFragment {
 
+    private MemoAdapter mAdapter;
+    private List<Memo> mMemoList;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        List<Memo> memoList = new ArrayList<>();
-        memoList.add(new Memo("제목 1", "메모 1"));
-        memoList.add(new Memo("제목 2", "메모 2"));
-        memoList.add(new Memo("제목 3", "메모 3"));
+        mMemoList = new ArrayList<>();
+        mMemoList.add(new Memo("제목 1", "메모 1"));
+        mMemoList.add(new Memo("제목 2", "메모 2"));
+        mMemoList.add(new Memo("제목 3", "메모 3"));
 
-        MemoAdapter adapter = new MemoAdapter(memoList);
+        mAdapter = new MemoAdapter(mMemoList);
 
-        setListAdapter(adapter);
+        setListAdapter(mAdapter);
+    }
+
+    public void addMemo(Memo memo) {
+        mMemoList.add(memo);
+        mAdapter.notifyDataSetChanged();
     }
 }

@@ -17,6 +17,8 @@ public class DetailActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             addFragmentTransaction(new MemoDetailFragment());
         }
+
+
     }
 
     private void addFragmentTransaction(Fragment fragment) {

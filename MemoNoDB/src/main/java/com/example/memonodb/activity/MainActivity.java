@@ -6,14 +6,17 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.example.memonodb.R;
 import com.example.memonodb.fragments.MemoListFragment;
+import com.example.memonodb.models.Memo;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final int REQUEST_CODE_ADD_MEMO = 1000;
+    public static final String KEY_DATA = "data";
+    private MemoListFragment mMemoListFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,13 +29,14 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, DetailActivity.class));
+                startActivityForResult(new Intent(MainActivity.this, DetailActivity.class), REQUEST_CODE_ADD_MEMO);
             }
         });
 
         // 한번만 붙이겠다
         if (savedInstanceState == null) {
-            addFragmentTransaction(new MemoListFragment());
+            mMemoListFragment = new MemoListFragment();
+            addFragmentTransaction(mMemoListFragment);
         }
     }
 
@@ -49,24 +53,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        if (requestCode == REQUEST_CODE_ADD_MEMO
+                && resultCode == RESULT_OK
+                && data != null) {
+            Memo memo = data.getParcelableExtra(KEY_DATA);
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+            mMemoListFragment.addMemo(memo);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 }
