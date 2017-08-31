@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.memonodb.R;
+import com.example.memorealm.R;
 
 /**
  * Created by junsuk on 2017. 8. 30..

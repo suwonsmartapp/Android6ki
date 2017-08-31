@@ -4,8 +4,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
-import com.example.memonodb.R;
-import com.example.memonodb.fragments.MemoDetailFragment;
+import com.example.memosqlite.R;
+import com.example.memosqlite.fragments.MemoDetailFragment;
+
 
 public class DetailActivity extends AppCompatActivity {
 

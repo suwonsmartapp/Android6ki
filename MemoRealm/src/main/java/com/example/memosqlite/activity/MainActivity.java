@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.example.memosqlite.R;
+import com.example.memorealm.R;
 import com.example.memosqlite.fragments.MemoListFragment;
 
 
