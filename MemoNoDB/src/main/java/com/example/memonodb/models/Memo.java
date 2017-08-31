@@ -8,6 +8,7 @@ import android.os.Parcelable;
  */
 
 public class Memo implements Parcelable {
+    private long id;
     private String title;
     private String memo;
 
@@ -32,6 +33,14 @@ public class Memo implements Parcelable {
         this.memo = memo;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("Memo{");
@@ -41,7 +50,6 @@ public class Memo implements Parcelable {
         return sb.toString();
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -49,11 +57,13 @@ public class Memo implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.id);
         dest.writeString(this.title);
         dest.writeString(this.memo);
     }
 
     protected Memo(Parcel in) {
+        this.id = in.readLong();
         this.title = in.readString();
         this.memo = in.readString();
     }

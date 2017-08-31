@@ -15,6 +15,8 @@ import com.example.memonodb.models.Memo;
 public class MainActivity extends AppCompatActivity {
 
     public static final int REQUEST_CODE_ADD_MEMO = 1000;
+    public static final int REQUEST_CODE_MEMO_UPDATE = 2000;
+
     public static final String KEY_DATA = "data";
     private MemoListFragment mMemoListFragment;
 
@@ -56,12 +58,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUEST_CODE_ADD_MEMO
-                && resultCode == RESULT_OK
-                && data != null) {
+        if (resultCode == RESULT_OK && data != null) {
             Memo memo = data.getParcelableExtra(KEY_DATA);
 
-            mMemoListFragment.addMemo(memo);
+            switch (requestCode) {
+                case REQUEST_CODE_ADD_MEMO:
+                    mMemoListFragment.addMemo(memo);
+                    break;
+                case REQUEST_CODE_MEMO_UPDATE:
+                    mMemoListFragment.updateMemo(memo);
+                    break;
+            }
         }
     }
 }

@@ -20,8 +20,19 @@ import com.example.memonodb.models.Memo;
 
 public class MemoDetailFragment extends Fragment {
 
+    public static final String MEMO_KEY = "memo";
+
     private EditText mTitleEditText;
     private EditText mMemoEditText;
+
+    public static MemoDetailFragment newInstance(Memo memo) {
+        Bundle args = new Bundle();
+        args.putParcelable(MEMO_KEY, memo);
+
+        MemoDetailFragment fragment = new MemoDetailFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Nullable
     @Override
@@ -49,5 +60,11 @@ public class MemoDetailFragment extends Fragment {
                 getActivity().finish();
             }
         });
+
+        if (getArguments() != null) {
+            Memo memo = getArguments().getParcelable(MEMO_KEY);
+            mTitleEditText.setText(memo.getTitle());
+            mMemoEditText.setText(memo.getMemo());
+        }
     }
 }
