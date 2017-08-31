@@ -24,6 +24,7 @@ public class MemoDetailFragment extends Fragment {
 
     private EditText mTitleEditText;
     private EditText mMemoEditText;
+    private long mId = -1;
 
     public static MemoDetailFragment newInstance(Memo memo) {
         Bundle args = new Bundle();
@@ -47,11 +48,23 @@ public class MemoDetailFragment extends Fragment {
         mTitleEditText = view.findViewById(R.id.title_edit);
         mMemoEditText = view.findViewById(R.id.memo_edit);
 
+        if (getArguments() != null) {
+            Memo memo = getArguments().getParcelable(MEMO_KEY);
+            mTitleEditText.setText(memo.getTitle());
+            mMemoEditText.setText(memo.getMemo());
+
+            mId = memo.getId();
+        }
+
         view.findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Memo memo = new Memo(mTitleEditText.getText().toString(),
                         mMemoEditText.getText().toString());
+
+                if (mId != -1) {
+                    memo.setId(mId);
+                }
 
                 Intent intent = new Intent();
                 intent.putExtra(MainActivity.KEY_DATA, memo);
@@ -61,10 +74,5 @@ public class MemoDetailFragment extends Fragment {
             }
         });
 
-        if (getArguments() != null) {
-            Memo memo = getArguments().getParcelable(MEMO_KEY);
-            mTitleEditText.setText(memo.getTitle());
-            mMemoEditText.setText(memo.getMemo());
-        }
     }
 }
