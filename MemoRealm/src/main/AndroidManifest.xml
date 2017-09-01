@@ -3,6 +3,7 @@
     package="com.example.memorealm">
 
     <application
+        android:name="com.example.memosqlite.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -10,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.MainActivity"
+            android:name="com.example.memosqlite.activity.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -19,7 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.DetailActivity"></activity>
+        <activity android:name="com.example.memosqlite.activity.DetailActivity"></activity>
     </application>
 
 </manifest>
