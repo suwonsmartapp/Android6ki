@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.memorealm.R;
 import com.example.memosqlite.models.Memo;
 
 import io.realm.OrderedRealmCollection;
@@ -18,6 +19,16 @@ import io.realm.RealmRecyclerViewAdapter;
 
 public class MemoRecyclerAdapter extends RealmRecyclerViewAdapter<Memo, MemoRecyclerAdapter.ViewHolder> {
 
+    public interface OnItemClickListener {
+        void onItemClicked(int position);
+    }
+
+    private OnItemClickListener mListener;
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.mListener = listener;
+    }
+
     public MemoRecyclerAdapter(@Nullable OrderedRealmCollection<Memo> data) {
         super(data, true);
         setHasStableIds(true);
@@ -26,8 +37,8 @@ public class MemoRecyclerAdapter extends RealmRecyclerViewAdapter<Memo, MemoRecy
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(android.R.layout.simple_list_item_2, parent, false);
-        return new ViewHolder(view);
+                .inflate(R.layout.item_memo, parent, false);
+        return new ViewHolder(view, mListener);
     }
 
     @Override
@@ -41,10 +52,16 @@ public class MemoRecyclerAdapter extends RealmRecyclerViewAdapter<Memo, MemoRecy
         TextView titleTextView;
         TextView memoTextView;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
-            titleTextView = itemView.findViewById(android.R.id.text1);
-            memoTextView = itemView.findViewById(android.R.id.text2);
+            titleTextView = itemView.findViewById(R.id.text1);
+            memoTextView = itemView.findViewById(R.id.text2);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onItemClicked(getAdapterPosition());
+                }
+            });
         }
     }
 }

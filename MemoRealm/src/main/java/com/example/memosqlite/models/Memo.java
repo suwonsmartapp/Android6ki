@@ -1,12 +1,20 @@
 package com.example.memosqlite.models;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
+import io.realm.Realm;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by junsuk on 2017. 8. 31..
  */
 
 public class Memo extends RealmObject {
+    private static AtomicInteger INTEGER_COUNTER;
+
+    @PrimaryKey
+    private int id;
 
     private String title;
     private String memo;
@@ -29,13 +37,24 @@ public class Memo extends RealmObject {
         this.memo = memo;
     }
 
-    @Override
-    public String toString() {
-        final StringBuffer sb = new StringBuffer("Memo{");
-        sb.append("title='").append(title).append('\'');
-        sb.append(", memo='").append(memo).append('\'');
-        sb.append('}');
-        return sb.toString();
+    public int getId() {
+        return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public static int getNewId(Realm realm) {
+        if (INTEGER_COUNTER == null) {
+            INTEGER_COUNTER = new AtomicInteger(0);
+
+            Number maxId = realm.where(Memo.class).max("id");
+            if (maxId != null) {
+                INTEGER_COUNTER.set(maxId.intValue() + 1);
+            }
+        }
+
+        return INTEGER_COUNTER.getAndIncrement();
+    }
 }

@@ -54,7 +54,7 @@ public class MemoDetailFragment extends Fragment {
 
     public void addMemo(String title, String memoText) {
         mRealm.beginTransaction();
-        Memo memo = mRealm.createObject(Memo.class);
+        Memo memo = mRealm.createObject(Memo.class, Memo.getNewId(mRealm));
         memo.setTitle(title);
         memo.setMemo(memoText);
         mRealm.commitTransaction();
