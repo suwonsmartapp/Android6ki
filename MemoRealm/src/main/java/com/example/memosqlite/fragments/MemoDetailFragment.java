@@ -45,7 +45,7 @@ public class MemoDetailFragment extends Fragment {
     }
 
     @OnClick(R.id.fab)
-    private void onFabClicked() {
+    public void onFabClicked() {
         addMemo(mTitleEdit.getText().toString(),
                 mMemoEdit.getText().toString());
 
