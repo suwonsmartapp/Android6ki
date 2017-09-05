@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.memorealm.R;
 import com.example.memosqlite.models.Memo;
@@ -67,19 +68,23 @@ public class MemoDetailFragment extends Fragment {
     public void onFabClicked() {
         mRealm.beginTransaction();
 
-        Memo memo = null;
-        if (mMode == MODE_ADD) {
-            memo = mRealm.createObject(Memo.class, Memo.getNewId(mRealm));
-        } else {
-            memo = mMemo;
+        try {
+            Memo memo = null;
+            if (mMode == MODE_ADD) {
+                memo = mRealm.createObject(Memo.class, Memo.getNewId(mRealm));
+            } else {
+                memo = mMemo;
+            }
+            memo.setTitle(mTitleEdit.getText().toString());
+            memo.setMemo(mMemoEdit.getText().toString());
+
+            mRealm.insertOrUpdate(memo);
+            mRealm.commitTransaction();
+            getActivity().finish();
+        } catch (Exception e) {
+            mRealm.cancelTransaction();
+            Toast.makeText(getContext(), "에러", Toast.LENGTH_SHORT).show();
         }
-        memo.setTitle(mTitleEdit.getText().toString());
-        memo.setMemo(mMemoEdit.getText().toString());
-
-        mRealm.insertOrUpdate(memo);
-        mRealm.commitTransaction();
-
-        getActivity().finish();
     }
 
     @Override

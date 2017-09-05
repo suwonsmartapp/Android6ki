@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
 
 /**
  * Created by junsuk on 2017. 8. 31..
@@ -16,6 +17,7 @@ public class Memo extends RealmObject {
     @PrimaryKey
     private int id;
 
+    @Required
     private String title;
     private String memo;
 
