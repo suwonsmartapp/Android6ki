@@ -20,7 +20,7 @@ import io.realm.RealmRecyclerViewAdapter;
 public class MemoRecyclerAdapter extends RealmRecyclerViewAdapter<Memo, MemoRecyclerAdapter.ViewHolder> {
 
     public interface OnItemClickListener {
-        void onItemClicked(int position);
+        void onItemClicked(Memo memo);
     }
 
     private OnItemClickListener mListener;
@@ -31,14 +31,22 @@ public class MemoRecyclerAdapter extends RealmRecyclerViewAdapter<Memo, MemoRecy
 
     public MemoRecyclerAdapter(@Nullable OrderedRealmCollection<Memo> data) {
         super(data, true);
-        setHasStableIds(true);
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_memo, parent, false);
-        return new ViewHolder(view, mListener);
+
+        final ViewHolder viewHolder = new ViewHolder(view);
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.onItemClicked(getItem(viewHolder.getAdapterPosition()));
+            }
+        });
+        return viewHolder;
     }
 
     @Override
@@ -52,16 +60,10 @@ public class MemoRecyclerAdapter extends RealmRecyclerViewAdapter<Memo, MemoRecy
         TextView titleTextView;
         TextView memoTextView;
 
-        public ViewHolder(View itemView, final OnItemClickListener listener) {
+        public ViewHolder(View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.text1);
             memoTextView = itemView.findViewById(R.id.text2);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    listener.onItemClicked(getAdapterPosition());
-                }
-            });
         }
     }
 }

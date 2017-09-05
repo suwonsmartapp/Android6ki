@@ -57,4 +57,14 @@ public class Memo extends RealmObject {
 
         return INTEGER_COUNTER.getAndIncrement();
     }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("Memo{");
+        sb.append("id=").append(id);
+        sb.append(", title='").append(title).append('\'');
+        sb.append(", memo='").append(memo).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

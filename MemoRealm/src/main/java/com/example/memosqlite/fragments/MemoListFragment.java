@@ -1,5 +1,6 @@
 package com.example.memosqlite.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,9 +9,9 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.memorealm.R;
+import com.example.memosqlite.activity.DetailActivity;
 import com.example.memosqlite.adapters.MemoRecyclerAdapter;
 import com.example.memosqlite.models.Memo;
 
@@ -19,6 +20,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import io.realm.Realm;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**
  * Created by junsuk on 2017. 8. 30..
@@ -53,7 +55,7 @@ public class MemoListFragment extends Fragment implements MemoRecyclerAdapter.On
 //        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
         // Realm 에서 데이터 읽어오기
-        RealmResults<Memo> data = mRealm.where(Memo.class).findAll();
+        RealmResults<Memo> data = mRealm.where(Memo.class).findAllSorted("id", Sort.DESCENDING);
 
         // 어댑터에 데이터 설정
         mAdapter = new MemoRecyclerAdapter(data);
@@ -72,7 +74,10 @@ public class MemoListFragment extends Fragment implements MemoRecyclerAdapter.On
     }
 
     @Override
-    public void onItemClicked(int position) {
-        Toast.makeText(getContext(), "" + position, Toast.LENGTH_SHORT).show();
+    public void onItemClicked(Memo memo) {
+        // 수정 화면으로 이동
+        Intent intent = new Intent(getContext(), DetailActivity.class);
+        intent.putExtra("id", memo.getId());
+        startActivity(intent);
     }
 }

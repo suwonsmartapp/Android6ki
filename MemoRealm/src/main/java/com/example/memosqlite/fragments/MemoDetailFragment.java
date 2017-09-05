@@ -34,6 +34,19 @@ public class MemoDetailFragment extends Fragment {
 
     private Realm mRealm;
 
+    private Memo mMemo;
+
+    public static final int MODE_ADD = 0;
+    public static final int MODE_UPDATE = 1;
+
+    private int mMode = MODE_ADD;
+
+    public static MemoDetailFragment newInstance(Memo memo) {
+        MemoDetailFragment fragment = new MemoDetailFragment();
+        fragment.setMemo(memo);
+        return fragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -41,23 +54,32 @@ public class MemoDetailFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
 
         mRealm = Realm.getDefaultInstance();
+
+        if (mMode == MODE_UPDATE) {
+            mTitleEdit.setText(mMemo.getTitle());
+            mMemoEdit.setText(mMemo.getMemo());
+        }
+
         return view;
     }
 
     @OnClick(R.id.fab)
     public void onFabClicked() {
-        addMemo(mTitleEdit.getText().toString(),
-                mMemoEdit.getText().toString());
+        mRealm.beginTransaction();
+
+        Memo memo = null;
+        if (mMode == MODE_ADD) {
+            memo = mRealm.createObject(Memo.class, Memo.getNewId(mRealm));
+        } else {
+            memo = mMemo;
+        }
+        memo.setTitle(mTitleEdit.getText().toString());
+        memo.setMemo(mMemoEdit.getText().toString());
+
+        mRealm.insertOrUpdate(memo);
+        mRealm.commitTransaction();
 
         getActivity().finish();
-    }
-
-    public void addMemo(String title, String memoText) {
-        mRealm.beginTransaction();
-        Memo memo = mRealm.createObject(Memo.class, Memo.getNewId(mRealm));
-        memo.setTitle(title);
-        memo.setMemo(memoText);
-        mRealm.commitTransaction();
     }
 
     @Override
@@ -67,4 +89,8 @@ public class MemoDetailFragment extends Fragment {
         mRealm.close();
     }
 
+    public void setMemo(Memo memo) {
+        this.mMemo = memo;
+        mMode = MODE_UPDATE;
+    }
 }

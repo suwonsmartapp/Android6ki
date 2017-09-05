@@ -6,6 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.example.memorealm.R;
 import com.example.memosqlite.fragments.MemoDetailFragment;
+import com.example.memosqlite.models.Memo;
+
+import io.realm.Realm;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -14,8 +17,25 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        Memo memo = null;
+        if (getIntent() != null) {
+            int id = getIntent().getIntExtra("id", -1);
+
+            Realm realm = Realm.getDefaultInstance();
+
+            memo = realm.where(Memo.class).equalTo("id", id).findFirst();
+
+            realm.close();
+        }
+
         if (savedInstanceState == null) {
-            addFragmentTransaction(new MemoDetailFragment());
+            if (memo == null) {
+                // 추가
+                addFragmentTransaction(new MemoDetailFragment());
+            } else {
+                // 수정
+                addFragmentTransaction(MemoDetailFragment.newInstance(memo));
+            }
         }
     }
 
