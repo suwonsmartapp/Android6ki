@@ -4,11 +4,32 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * Created by junsuk on 2017. 9. 6..
  */
 
 public class UserDbHelper extends SQLiteOpenHelper {
+
+    private static UserDbHelper ourInstance;
+
+    private static AtomicInteger sConnectionCount = new AtomicInteger(0);
+
+    public static synchronized UserDbHelper getInstance(Context context) {
+        if (ourInstance == null) {
+            ourInstance = new UserDbHelper(context);
+        }
+        sConnectionCount.incrementAndGet();
+        return ourInstance;
+    }
+
+    public void close() {
+        if (sConnectionCount.decrementAndGet() == 0) {
+            sConnectionCount = null;
+        }
+    }
+
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "User.db";
 
@@ -19,7 +40,8 @@ public class UserDbHelper extends SQLiteOpenHelper {
                     UserContract.UserEntry.COLUMN_NAME_PASSWORD + " TEXT" +
                     ");";
 
-    public UserDbHelper(Context context) {
+
+    private UserDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
