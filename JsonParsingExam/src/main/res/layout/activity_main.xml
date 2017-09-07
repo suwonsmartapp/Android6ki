@@ -14,7 +14,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="requestLocation"
-            android:text="요청" />
+            android:text="위치 요청" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="requestWeather"
+            android:text="날씨 요청" />
 
         <TextView
             android:id="@+id/result_text"

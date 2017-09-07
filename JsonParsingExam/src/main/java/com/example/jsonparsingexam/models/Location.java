@@ -1,4 +1,4 @@
-package com.example.jsonparsingexam;
+package com.example.jsonparsingexam.models;
 
 /**
  * Created by junsuk on 2017. 9. 7..

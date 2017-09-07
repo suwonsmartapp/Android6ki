@@ -6,6 +6,11 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.jsonparsingexam.models.Location;
+import com.example.jsonparsingexam.models.Weather;
+
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
@@ -52,6 +57,24 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Location> call, Throwable t) {
                 // UI 스레드
+                mResultText.setText(t.getLocalizedMessage());
+                mProgressBar.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    public void requestWeather(View view) {
+        mProgressBar.setVisibility(View.VISIBLE);
+
+        mApiService.getWeatherList().enqueue(new Callback<List<Weather>>() {
+            @Override
+            public void onResponse(Call<List<Weather>> call, Response<List<Weather>> response) {
+                mResultText.setText(response.body().toString());
+                mProgressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call<List<Weather>> call, Throwable t) {
                 mResultText.setText(t.getLocalizedMessage());
                 mProgressBar.setVisibility(View.GONE);
             }
