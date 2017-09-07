@@ -1,1 +1,1 @@
-include ':app', ':npang', ':broadcastreceiver', ':cursorproviderglide', ':thread', ':MemoNoDB', ':MemoSQLite', ':MemoRealm', ':MemoFirebase', ':DbRealmExam', ':DbSQLiteExam'
+include ':app', ':npang', ':broadcastreceiver', ':cursorproviderglide', ':thread', ':MemoNoDB', ':MemoSQLite', ':MemoRealm', ':MemoFirebase', ':DbRealmExam', ':DbSQLiteExam', ':JsonParsingExam'
