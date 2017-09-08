@@ -1,5 +1,5 @@
 
-package com.example.weather.models;
+package com.example.weather.models.current;
 
 
 import com.google.gson.annotations.SerializedName;

@@ -14,7 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.weather.models.current.CurrentWeather;
+import com.example.weather.models.forecast.Forecast;
 import com.example.weather.retrofit.WeatherUtil;
 
 import butterknife.BindView;
@@ -28,7 +28,7 @@ import retrofit2.Response;
  * Created by junsuk on 2017. 9. 8..
  */
 
-public class CurrentWeatherFragment extends Fragment {
+public class ForecastFragment extends Fragment {
 
     @BindView(R.id.city_edit_text)
     EditText mCityEditText;
@@ -90,25 +90,16 @@ public class CurrentWeatherFragment extends Fragment {
         mProgressBar.setVisibility(View.VISIBLE);
 
         // openweather
-        mWeatherUtil.getApiService().getCurrentWeather(cityName).enqueue(new Callback<CurrentWeather>() {
+        mWeatherUtil.getApiService().getForecast(cityName).enqueue(new Callback<Forecast>() {
             @Override
-            public void onResponse(Call<CurrentWeather> call, Response<CurrentWeather> response) {
-                CurrentWeather currentWeather = response.body();
-
-                mTempTextView.setText("기온 : " + currentWeather.getMain().getTemp());
-                mPressureTextView.setText("기압 : " + currentWeather.getMain().getPressure());
-                mHumidityTextView.setText("습도 : " + currentWeather.getMain().getHumidity());
-                mMinTempTextView.setText("최저기온 : " + currentWeather.getMain().getTempMin());
-                mMaxTempTextView.setText("최고기온 : " + currentWeather.getMain().getTempMax());
-
-                mCityTextView.setText("지역 : " + currentWeather.getName());
-
+            public void onResponse(Call<Forecast> call, Response<Forecast> response) {
+                Toast.makeText(getContext(), response.body().toString(), Toast.LENGTH_SHORT).show();
                 mProgressBar.setVisibility(View.GONE);
             }
 
             @Override
-            public void onFailure(Call<CurrentWeather> call, Throwable t) {
-                Toast.makeText(getContext(), t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+            public void onFailure(Call<Forecast> call, Throwable t) {
+                Toast.makeText(getContext(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 mProgressBar.setVisibility(View.GONE);
             }
         });

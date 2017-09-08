@@ -1,5 +1,5 @@
 
-package com.example.weather.models;
+package com.example.weather.models.current;
 
 
 public class Weather {

@@ -1,6 +1,7 @@
 package com.example.weather.retrofit;
 
-import com.example.weather.models.CurrentWeather;
+import com.example.weather.models.current.CurrentWeather;
+import com.example.weather.models.forecast.Forecast;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -12,4 +13,7 @@ public interface WeatherApi {
 
     @GET("weather?lang=kr&units=metric&appid=" + APP_ID)
     Call<CurrentWeather> getCurrentWeather(@Query("q") String cityName);
+
+    @GET("forecast?lang=kr&units=metric&appid=" + APP_ID)
+    Call<Forecast> getForecast(@Query("q") String cityName);
 }
