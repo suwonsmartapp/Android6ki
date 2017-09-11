@@ -1,9 +1,11 @@
 package com.example.weather;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +49,8 @@ public class CurrentWeatherFragment extends Fragment {
     @BindView(R.id.city_text_view)
     TextView mCityTextView;
     Unbinder unbinder;
+    @BindView(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     private WeatherUtil mWeatherUtil;
 
@@ -71,6 +75,18 @@ public class CurrentWeatherFragment extends Fragment {
             }
         });
 
+        // 색
+        mSwipeRefreshLayout.setColorSchemeColors(Color.RED,
+                Color.YELLOW,
+                Color.GREEN);
+        // 아래로 땡기면 콜 백
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                search(mCityEditText.getText().toString());
+            }
+        });
+
         return view;
     }
 
@@ -87,7 +103,7 @@ public class CurrentWeatherFragment extends Fragment {
     }
 
     private void search(String cityName) {
-        mProgressBar.setVisibility(View.VISIBLE);
+        mSwipeRefreshLayout.setRefreshing(true);
 
         // openweather
         mWeatherUtil.getApiService().getCurrentWeather(cityName).enqueue(new Callback<CurrentWeather>() {
@@ -103,13 +119,14 @@ public class CurrentWeatherFragment extends Fragment {
 
                 mCityTextView.setText("지역 : " + currentWeather.getName());
 
-                mProgressBar.setVisibility(View.GONE);
+                mSwipeRefreshLayout.setRefreshing(false);
+
             }
 
             @Override
             public void onFailure(Call<CurrentWeather> call, Throwable t) {
                 Toast.makeText(getContext(), t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                mProgressBar.setVisibility(View.GONE);
+                mSwipeRefreshLayout.setRefreshing(false);
             }
         });
     }

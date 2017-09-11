@@ -56,7 +56,7 @@ public class WeatherListAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        List weatherList = (List) getItem(position);
+        List weatherList = mWeatherList.get(position);
 
         String iconUrl = "http://openweathermap.org/img/w/" +
                 weatherList.getWeather().get(0).getIcon() + ".png";
