@@ -10,10 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.weather.adapters.WeatherListAdapter;
 import com.example.weather.models.forecast.Forecast;
 import com.example.weather.retrofit.WeatherUtil;
 
@@ -30,30 +31,20 @@ import retrofit2.Response;
 
 public class ForecastFragment extends Fragment {
 
+    Unbinder unbinder;
     @BindView(R.id.city_edit_text)
     EditText mCityEditText;
-    @BindView(R.id.temp_text_view)
-    TextView mTempTextView;
-    @BindView(R.id.pressure_text_view)
-    TextView mPressureTextView;
-    @BindView(R.id.humidity_text_view)
-    TextView mHumidityTextView;
-    @BindView(R.id.min_temp_text_view)
-    TextView mMinTempTextView;
-    @BindView(R.id.max_temp_text_view)
-    TextView mMaxTempTextView;
+    @BindView(R.id.list_view)
+    ListView mListView;
     @BindView(R.id.progressBar)
     ProgressBar mProgressBar;
-    @BindView(R.id.city_text_view)
-    TextView mCityTextView;
-    Unbinder unbinder;
 
     private WeatherUtil mWeatherUtil;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_current_weather, container, false);
+        View view = inflater.inflate(R.layout.fragment_forecast, container, false);
         unbinder = ButterKnife.bind(this, view);
 
         mCityEditText.setOnKeyListener(new View.OnKeyListener() {
@@ -93,7 +84,9 @@ public class ForecastFragment extends Fragment {
         mWeatherUtil.getApiService().getForecast(cityName).enqueue(new Callback<Forecast>() {
             @Override
             public void onResponse(Call<Forecast> call, Response<Forecast> response) {
-                Toast.makeText(getContext(), response.body().toString(), Toast.LENGTH_SHORT).show();
+                WeatherListAdapter adapter = new WeatherListAdapter(response.body().getList());
+                mListView.setAdapter(adapter);
+
                 mProgressBar.setVisibility(View.GONE);
             }
 
