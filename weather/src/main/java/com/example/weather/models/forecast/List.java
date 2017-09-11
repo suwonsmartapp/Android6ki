@@ -95,4 +95,18 @@ public class List {
         this.dtTxt = dtTxt;
     }
 
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("List{");
+        sb.append("dt=").append(dt);
+        sb.append(", main=").append(main);
+        sb.append(", weather=").append(weather);
+        sb.append(", clouds=").append(clouds);
+        sb.append(", wind=").append(wind);
+        sb.append(", rain=").append(rain);
+        sb.append(", sys=").append(sys);
+        sb.append(", dtTxt='").append(dtTxt).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

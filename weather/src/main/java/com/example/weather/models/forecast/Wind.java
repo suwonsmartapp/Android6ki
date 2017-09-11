@@ -29,4 +29,12 @@ public class Wind {
         this.deg = deg;
     }
 
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("Wind{");
+        sb.append("speed=").append(speed);
+        sb.append(", deg=").append(deg);
+        sb.append('}');
+        return sb.toString();
+    }
 }

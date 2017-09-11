@@ -18,4 +18,11 @@ public class Sys {
         this.pod = pod;
     }
 
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("Sys{");
+        sb.append("pod='").append(pod).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

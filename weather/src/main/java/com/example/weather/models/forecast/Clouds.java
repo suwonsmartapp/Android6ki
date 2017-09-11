@@ -8,14 +8,21 @@ public class Clouds {
 
     @SerializedName("all")
     @Expose
-    private int all;
+    private double all;
 
-    public int getAll() {
+    public double getAll() {
         return all;
     }
 
-    public void setAll(int all) {
+    public void setAll(double all) {
         this.all = all;
     }
 
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("Clouds{");
+        sb.append("all=").append(all);
+        sb.append('}');
+        return sb.toString();
+    }
 }

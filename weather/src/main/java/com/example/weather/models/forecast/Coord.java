@@ -29,4 +29,12 @@ public class Coord {
         this.lon = lon;
     }
 
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("Coord{");
+        sb.append("lat=").append(lat);
+        sb.append(", lon=").append(lon);
+        sb.append('}');
+        return sb.toString();
+    }
 }

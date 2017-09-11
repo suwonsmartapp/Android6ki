@@ -18,4 +18,11 @@ public class Rain {
         this._3h = _3h;
     }
 
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("Rain{");
+        sb.append("_3h=").append(_3h);
+        sb.append('}');
+        return sb.toString();
+    }
 }

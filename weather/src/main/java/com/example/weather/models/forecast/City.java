@@ -51,4 +51,14 @@ public class City {
         this.country = country;
     }
 
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("City{");
+        sb.append("id=").append(id);
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", coord=").append(coord);
+        sb.append(", country='").append(country).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }
