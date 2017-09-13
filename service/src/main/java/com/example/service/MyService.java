@@ -3,14 +3,26 @@ package com.example.service;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.support.annotation.MainThread;
 import android.util.Log;
 
 public class MyService extends Service {
     public static final String TAG = MyService.class.getSimpleName();
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
     public MyService() {
     }
 
+    @MainThread
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         new Thread(new Runnable() {
