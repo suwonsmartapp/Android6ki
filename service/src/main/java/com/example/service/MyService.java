@@ -13,14 +13,19 @@ public class MyService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        for (int i = 0; i < 10; i++) {
-            try {
-                Thread.sleep(1000);
-                Log.d(TAG, "onStartCommand: " + i);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < 10; i++) {
+                    try {
+                        Thread.sleep(1000);
+                        Log.d(TAG, "onStartCommand: " + i);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
-        }
+        }).start();
         return START_NOT_STICKY;
     }
 
