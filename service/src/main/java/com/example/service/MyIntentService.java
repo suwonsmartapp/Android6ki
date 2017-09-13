@@ -20,6 +20,18 @@ public class MyIntentService extends IntentService {
         super(TAG);
     }
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Log.d(TAG, "onCreate: ");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy: ");
+    }
+
     @WorkerThread
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {

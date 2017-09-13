@@ -19,6 +19,18 @@
         android:text="IntentService" />
 
     <Button
+        android:onClick="onBindService"
+        android:text="bindService"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:onClick="getValue"
+        android:text="바인드된 서비스 제어"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="     " />
