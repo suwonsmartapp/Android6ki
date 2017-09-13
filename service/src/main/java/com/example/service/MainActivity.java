@@ -10,6 +10,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 public class MainActivity extends AppCompatActivity implements MyService.IServiceCallback {
 
     private Intent mServiceIntent;
@@ -78,5 +82,23 @@ public class MainActivity extends AppCompatActivity implements MyService.IServic
                 Toast.makeText(MainActivity.this, "" + value, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(MyIntentService.CallbackEvent event) {
+        Toast.makeText(this, "EventBus : " + event.i, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 }

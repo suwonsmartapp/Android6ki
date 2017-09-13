@@ -6,16 +6,13 @@ import android.support.annotation.Nullable;
 import android.support.annotation.WorkerThread;
 import android.util.Log;
 
+import org.greenrobot.eventbus.EventBus;
+
 public class MyIntentService extends IntentService {
 
 
     public static final String TAG = MyIntentService.class.getSimpleName();
 
-    /**
-     * Creates an IntentService.  Invoked by your subclass's constructor.
-     *
-     * @param name Used to name the worker thread, important only for debugging.
-     */
     public MyIntentService() {
         super(TAG);
     }
@@ -39,9 +36,20 @@ public class MyIntentService extends IntentService {
             try {
                 Thread.sleep(1000);
                 Log.d(TAG, "MyIntentService: " + i);
+
+                EventBus.getDefault().post(new CallbackEvent(i));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static class CallbackEvent {
+
+        public CallbackEvent(int i) {
+            this.i = i;
+        }
+
+        int i;
     }
 }
