@@ -39,6 +39,9 @@ public class MyService extends Service {
                     try {
                         Thread.sleep(1000);
                         Log.d(TAG, "onStartCommand: " + i);
+                        if (mCallback != null) {
+                            mCallback.onCallback(i);
+                        }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -64,5 +67,15 @@ public class MyService extends Service {
 
     public int getValue() {
         return i;
+    }
+
+    public interface IServiceCallback {
+        void onCallback(int value);
+    }
+
+    IServiceCallback mCallback;
+
+    public void setCallback(IServiceCallback callback) {
+        mCallback = callback;
     }
 }

@@ -5,11 +5,12 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.annotation.WorkerThread;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MyService.IServiceCallback {
 
     private Intent mServiceIntent;
     private MyService mMyService;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
                 mMyService = ((MyService.MyBinder) service).getService();
+                mMyService.setCallback(MainActivity.this);
                 mBound = true;
             }
 
@@ -65,5 +67,16 @@ public class MainActivity extends AppCompatActivity {
         if (mBound) {
             Toast.makeText(this, mMyService.getValue() + "", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @WorkerThread
+    @Override
+    public void onCallback(final int value) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(MainActivity.this, "" + value, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
