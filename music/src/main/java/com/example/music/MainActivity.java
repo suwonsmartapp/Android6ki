@@ -1,10 +1,9 @@
 package com.example.music;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -20,7 +19,8 @@ import android.widget.Toast;
 
 import com.example.music.util.ImageUtil;
 
-import java.io.IOException;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageButton mPrevButton;
     ImageButton mPlayButton;
     ImageButton mNextButton;
-    private MediaPlayer mMediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,18 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         getSongList();
 
-        mMediaPlayer = new MediaPlayer();
-
         mPlayButton.setOnClickListener(this);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        if (mMediaPlayer != null) {
-            mMediaPlayer.release();
-        }
     }
 
     private void getSongList() {
@@ -87,25 +75,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String uri = currentCursor.getString(currentCursor.getColumnIndex(MediaStore.Audio.Media.DATA));
                 Toast.makeText(MainActivity.this, uri, Toast.LENGTH_SHORT).show();
 
-                try {
-                    // Play
-                    mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                    mMediaPlayer.setDataSource(MainActivity.this, Uri.parse(uri));
-                    mMediaPlayer.prepareAsync();
-                    mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                        @Override
-                        public void onPrepared(MediaPlayer mp) {
-                            mp.start();
-
-                            if (mp.isPlaying()) {
-                                // https://developer.android.com/studio/write/vector-asset-studio.html?hl=ko
-                                ImageUtil.changeVectorDrawable(MainActivity.this, mPlayButton, R.drawable.ic_pause_black_24dp);
-                            }
-                        }
-                    });
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                Intent intent = new Intent(MainActivity.this, MyMusicService.class);
+                intent.setAction(MyMusicService.ACTION_PLAY);
+                intent.putExtra("uri", Uri.parse(uri));
+                startService(intent);
             }
         });
     }
@@ -134,11 +107,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void onPlayButtonClicked() {
-        if (mMediaPlayer.isPlaying()) {
-            mMediaPlayer.stop();
-            mMediaPlayer.reset();
+        Intent intent = new Intent(this, MyMusicService.class);
+        intent.setAction(MyMusicService.ACTION_PAUSE);
+        startService(intent);
+    }
 
+    @Subscribe
+    public void onUiChangeEvent(MyMusicService.UiChangeEvent event) {
+        if (event.isPlaying) {
+            ImageUtil.changeVectorDrawable(this, mPlayButton, R.drawable.ic_pause_black_24dp);
+        } else {
             ImageUtil.changeVectorDrawable(this, mPlayButton, R.drawable.ic_play_arrow_black_24dp);
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 }
