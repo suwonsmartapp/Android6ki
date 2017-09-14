@@ -10,7 +10,6 @@ import org.greenrobot.eventbus.EventBus;
 
 public class MyIntentService extends IntentService {
 
-
     public static final String TAG = MyIntentService.class.getSimpleName();
 
     public MyIntentService() {
