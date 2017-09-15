@@ -2,8 +2,13 @@ package com.example.music;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.MediaMetadataRetriever;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.widget.CursorAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MyMusicCursorAdapter extends CursorAdapter {
+    public static final String TAG = MyMusicCursorAdapter.class.getSimpleName();
+
     public MyMusicCursorAdapter(Context context, Cursor c) {
         super(context, c, false);
     }
@@ -38,6 +45,23 @@ public class MyMusicCursorAdapter extends CursorAdapter {
 
         viewHolder.mTitleTextView.setText(title);
         viewHolder.mArtistTextView.setText(artist);
+
+        final Uri uri = Uri.parse(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA)));
+
+        MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
+        try {
+            mediaMetadataRetriever.setDataSource(context, uri);
+            byte[] picture = mediaMetadataRetriever.getEmbeddedPicture();
+
+            if (picture != null) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(picture, 0, picture.length);
+                viewHolder.mImageView.setImageBitmap(bitmap);
+            } else {
+                viewHolder.mImageView.setImageResource(R.mipmap.ic_launcher);
+            }
+        } catch (Exception e) {
+            Log.d(TAG, "bindView: " + cursor.getPosition());
+        }
     }
 
     static class ViewHolder {

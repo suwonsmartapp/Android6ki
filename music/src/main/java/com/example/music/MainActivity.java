@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -13,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageButton mPrevButton;
     ImageButton mPlayButton;
     ImageButton mNextButton;
+    private ImageView mPictureImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mPrevButton = (ImageButton) findViewById(R.id.prev_button);
         mPlayButton = (ImageButton) findViewById(R.id.play_button);
         mNextButton = (ImageButton) findViewById(R.id.next_button);
+        mPictureImageView = (ImageView) findViewById(R.id.picture_image_view);
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -75,12 +79,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String uri = currentCursor.getString(currentCursor.getColumnIndex(MediaStore.Audio.Media.DATA));
                 Toast.makeText(MainActivity.this, uri, Toast.LENGTH_SHORT).show();
 
+                MyMusicCursorAdapter.ViewHolder holder = (MyMusicCursorAdapter.ViewHolder) view.getTag();
+
+                showMusicInfo(currentCursor, holder);
+
                 Intent intent = new Intent(MainActivity.this, MyMusicService.class);
                 intent.setAction(MyMusicService.ACTION_PLAY);
                 intent.putExtra("uri", Uri.parse(uri));
                 startService(intent);
             }
         });
+    }
+
+    private void showMusicInfo(Cursor currentCursor, MyMusicCursorAdapter.ViewHolder holder) {
+        String title = currentCursor.getString(currentCursor.getColumnIndex(MediaStore.Audio.Media.TITLE));
+
+        String artist = currentCursor.getString(currentCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST));
+
+        mTitleTextView.setText(title);
+        mArtistTextView.setText(artist);
+
+        BitmapDrawable drawable = (BitmapDrawable) holder.mImageView.getDrawable();
+
+        mPictureImageView.setImageDrawable(drawable);
     }
 
     @Override
@@ -108,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void onPlayButtonClicked() {
         Intent intent = new Intent(this, MyMusicService.class);
-        intent.setAction(MyMusicService.ACTION_PAUSE);
+        intent.setAction(MyMusicService.ACTION_PLAY);
         startService(intent);
     }
 
@@ -131,5 +152,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        startForegroundService();
+        super.onBackPressed();
+    }
+
+    private void startForegroundService() {
+        Intent intent = new Intent(MainActivity.this, MyMusicService.class);
+        intent.setAction(MyMusicService.ACTION_FOREGROUND_SERVICE);
+        startService(intent);
     }
 }
