@@ -1,12 +1,19 @@
 package com.example.music;
 
 import android.Manifest;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -34,6 +41,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageButton mPlayButton;
     ImageButton mNextButton;
     private ImageView mPictureImageView;
+
+    private MyMusicService mService;
+    boolean mBound = false;
+
+    private Uri mUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,15 +89,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Cursor currentCursor = (Cursor) parent.getAdapter().getItem(position);
                 String uri = currentCursor.getString(currentCursor.getColumnIndex(MediaStore.Audio.Media.DATA));
-                Toast.makeText(MainActivity.this, uri, Toast.LENGTH_SHORT).show();
 
                 MyMusicCursorAdapter.ViewHolder holder = (MyMusicCursorAdapter.ViewHolder) view.getTag();
 
-                showMusicInfo(currentCursor, holder);
-
                 Intent intent = new Intent(MainActivity.this, MyMusicService.class);
+                mUri = Uri.parse(uri);
+
                 intent.setAction(MyMusicService.ACTION_PLAY);
-                intent.putExtra("uri", Uri.parse(uri));
+                intent.putExtra("uri", mUri);
                 startService(intent);
             }
         });
@@ -129,8 +140,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void onPlayButtonClicked() {
         Intent intent = new Intent(this, MyMusicService.class);
-        intent.setAction(MyMusicService.ACTION_PLAY);
-        startService(intent);
+        if (mService.getMediaPlayer().isPlaying()) {
+            intent.setAction(MyMusicService.ACTION_PAUSE);
+        } else {
+            intent.setAction(MyMusicService.ACTION_PLAY);
+
+        }
+        if (mUri != null) {
+            intent.putExtra("uri", mUri);
+            startService(intent);
+        }
     }
 
     @Subscribe
@@ -140,18 +159,50 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             ImageUtil.changeVectorDrawable(this, mPlayButton, R.drawable.ic_play_arrow_black_24dp);
         }
+
+        MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
+        try {
+            mediaMetadataRetriever.setDataSource(this, event.uri);
+            byte[] picture = mediaMetadataRetriever.getEmbeddedPicture();
+
+            String artist = mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST);
+            String title = mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE);
+
+            mArtistTextView.setText(artist);
+            mTitleTextView.setText(title);
+
+            if (picture != null) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(picture, 0, picture.length);
+                mPictureImageView.setImageBitmap(bitmap);
+            } else {
+                mPictureImageView.setImageResource(R.mipmap.ic_launcher);
+            }
+
+        } catch (Exception e) {
+            Toast.makeText(mService, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
+
+        // 서비스 바인드
+        Intent intent = new Intent(this, MyMusicService.class);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
+
+        // 서비스 언바인드
+        if (mBound) {
+            unbindService(mConnection);
+            mBound = false;
+        }
     }
 
     @Override
@@ -165,4 +216,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         intent.setAction(MyMusicService.ACTION_FOREGROUND_SERVICE);
         startService(intent);
     }
+
+    private ServiceConnection mConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName className,
+                                       IBinder service) {
+            mService = ((MyMusicService.MyMusicServiceBinder) service).getService();
+            mBound = true;
+
+            mService.updateUi();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            // 강제 종료
+            mBound = false;
+        }
+    };
 }

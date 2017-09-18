@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Binder;
 import android.os.IBinder;
 import android.support.v7.app.NotificationCompat;
 import android.widget.Toast;
@@ -24,6 +25,9 @@ public class MyMusicService extends Service {
     public static final String ACTION_FOREGROUND_SERVICE = "com.example.music.action.foreground_service";
 
     private MediaPlayer mMediaPlayer;
+    private Uri mUri;
+
+    private final IBinder mBinder = new MyMusicServiceBinder();
 
     public MyMusicService() {
         mMediaPlayer = new MediaPlayer();
@@ -38,13 +42,13 @@ public class MyMusicService extends Service {
             case ACTION_PLAY:
                 if (mMediaPlayer.isPlaying()) {
                     pause();
-                } else {
-                    Uri uri = intent.getParcelableExtra("uri");
-                    try {
-                        play(uri);
-                    } catch (IOException e) {
-                        Toast.makeText(this, "에러!!!", Toast.LENGTH_SHORT).show();
-                    }
+                }
+
+                mUri = intent.getParcelableExtra("uri");
+                try {
+                    play(mUri);
+                } catch (IOException e) {
+                    Toast.makeText(this, "에러!!!", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case ACTION_PAUSE:
@@ -87,7 +91,10 @@ public class MyMusicService extends Service {
             public void onPrepared(MediaPlayer mp) {
                 mp.start();
 
-                EventBus.getDefault().post(new UiChangeEvent(mMediaPlayer.isPlaying()));
+                UiChangeEvent event = new UiChangeEvent();
+                event.isPlaying = mMediaPlayer.isPlaying();
+                event.uri = mUri;
+                EventBus.getDefault().post(event);
             }
         });
     }
@@ -95,15 +102,18 @@ public class MyMusicService extends Service {
     public void pause() {
         if (mMediaPlayer.isPlaying()) {
             mMediaPlayer.stop();
+            mMediaPlayer.reset();
 
-            EventBus.getDefault().post(new UiChangeEvent(mMediaPlayer.isPlaying()));
+            UiChangeEvent event = new UiChangeEvent();
+            event.isPlaying = mMediaPlayer.isPlaying();
+            event.uri = mUri;
+            EventBus.getDefault().post(event);
         }
     }
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
-        throw new UnsupportedOperationException("Not yet implemented");
+        return mBinder;
     }
 
     @Override
@@ -117,9 +127,24 @@ public class MyMusicService extends Service {
 
     public static class UiChangeEvent {
         boolean isPlaying;
+        Uri uri;
+    }
 
-        public UiChangeEvent(boolean isPlaying) {
-            this.isPlaying = isPlaying;
+    public class MyMusicServiceBinder extends Binder {
+        public MyMusicService getService() {
+            return MyMusicService.this;
         }
     }
+
+    public MediaPlayer getMediaPlayer() {
+        return mMediaPlayer;
+    }
+
+    public void updateUi() {
+        UiChangeEvent event = new UiChangeEvent();
+        event.isPlaying = mMediaPlayer.isPlaying();
+        event.uri = mUri;
+        EventBus.getDefault().post(event);
+    }
+
 }
