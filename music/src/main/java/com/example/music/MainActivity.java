@@ -198,18 +198,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        startForegroundService();
-        super.onBackPressed();
-    }
-
-    private void startForegroundService() {
-        Intent intent = new Intent(MainActivity.this, MyMusicService.class);
-        intent.setAction(MyMusicService.ACTION_FOREGROUND_SERVICE);
-        startService(intent);
-    }
-
     private ServiceConnection mConnection = new ServiceConnection() {
 
         @Override

@@ -10,7 +10,9 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
-import android.support.v7.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat.Action;
+import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
@@ -22,7 +24,6 @@ public class MyMusicService extends Service {
     public static final String ACTION_PAUSE = "com.example.music.action.pause";
     public static final String ACTION_PREV = "com.example.music.action.prev";
     public static final String ACTION_NEXT = "com.example.music.action.next";
-    public static final String ACTION_FOREGROUND_SERVICE = "com.example.music.action.foreground_service";
 
     private MediaPlayer mMediaPlayer;
     private Uri mUri;
@@ -40,16 +41,17 @@ public class MyMusicService extends Service {
 
         switch (action) {
             case ACTION_PLAY:
+                Uri uri = intent.getParcelableExtra("uri");
                 if (mMediaPlayer.isPlaying()) {
                     pause();
                 }
-                Uri uri = intent.getParcelableExtra("uri");
                 if (uri != null) {
                     mUri = uri;
                 }
 
                 try {
                     play(mUri);
+                    startForeground(1, createNotification());
                 } catch (IOException e) {
                     Toast.makeText(this, "에러!!!", Toast.LENGTH_SHORT).show();
                 }
@@ -61,9 +63,6 @@ public class MyMusicService extends Service {
                 break;
             case ACTION_NEXT:
                 break;
-            case ACTION_FOREGROUND_SERVICE:
-                startForeground(1, createNotification());
-                break;
         }
 
         return START_NOT_STICKY;
@@ -71,8 +70,14 @@ public class MyMusicService extends Service {
 
     private Notification createNotification() {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        builder.setContentTitle("뮤직플레이어");
-        builder.setContentText("노래 제목");
+
+        RemoteViews views = new RemoteViews(getPackageName(),
+                R.layout.notification);
+
+        builder.setContent(views);
+
+//        builder.setContentTitle("뮤직플레이어");
+//        builder.setContentText("노래 제목");
         builder.setSmallIcon(R.mipmap.ic_launcher);
         builder.setLargeIcon(BitmapFactory.decodeResource(getResources(),
                 R.mipmap.ic_launcher));
@@ -83,7 +88,40 @@ public class MyMusicService extends Service {
 
         builder.setContentIntent(pendingIntent);
 
+        createAction(builder,
+                MyMusicService.ACTION_PREV,
+                1002,
+                R.drawable.ic_skip_previous_black_24dp,
+                "prev");
+
+        createAction(builder,
+                MyMusicService.ACTION_PLAY,
+                1001,
+                R.drawable.ic_play_arrow_black_24dp,
+                "play");
+
+        createAction(builder,
+                MyMusicService.ACTION_NEXT,
+                1003,
+                R.drawable.ic_skip_next_black_24dp,
+                "next");
+
         return builder.build();
+    }
+
+    private void createAction(NotificationCompat.Builder builder,
+                              String action,
+                              int requestCode,
+                              int icon,
+                              String title) {
+        Intent intent = new Intent(this, MyMusicService.class);
+        intent.setAction(action);
+
+        PendingIntent pendingIntent = PendingIntent.getService(this, requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Action NotiAction = new Action(icon,
+                title, pendingIntent);
+        builder.addAction(NotiAction);
     }
 
     public void play(Uri uri) throws IOException {
