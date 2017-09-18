@@ -43,8 +43,11 @@ public class MyMusicService extends Service {
                 if (mMediaPlayer.isPlaying()) {
                     pause();
                 }
+                Uri uri = intent.getParcelableExtra("uri");
+                if (uri != null) {
+                    mUri = uri;
+                }
 
-                mUri = intent.getParcelableExtra("uri");
                 try {
                     play(mUri);
                 } catch (IOException e) {

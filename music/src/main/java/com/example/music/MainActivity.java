@@ -45,8 +45,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private MyMusicService mService;
     boolean mBound = false;
 
-    private Uri mUri;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,10 +91,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 MyMusicCursorAdapter.ViewHolder holder = (MyMusicCursorAdapter.ViewHolder) view.getTag();
 
                 Intent intent = new Intent(MainActivity.this, MyMusicService.class);
-                mUri = Uri.parse(uri);
-
                 intent.setAction(MyMusicService.ACTION_PLAY);
-                intent.putExtra("uri", mUri);
+                intent.putExtra("uri", Uri.parse(uri));
                 startService(intent);
             }
         });
@@ -146,10 +142,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             intent.setAction(MyMusicService.ACTION_PLAY);
 
         }
-        if (mUri != null) {
-            intent.putExtra("uri", mUri);
-            startService(intent);
-        }
+        startService(intent);
     }
 
     @Subscribe
