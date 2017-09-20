@@ -4,15 +4,18 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.AudioManager;
+import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
+import android.provider.MediaStore;
 import android.support.v4.app.NotificationCompat.Action;
-import android.widget.RemoteViews;
+import android.support.v7.app.NotificationCompat;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
@@ -24,6 +27,7 @@ public class MyMusicService extends Service {
     public static final String ACTION_PAUSE = "com.example.music.action.pause";
     public static final String ACTION_PREV = "com.example.music.action.prev";
     public static final String ACTION_NEXT = "com.example.music.action.next";
+    private Cursor mCursor;
 
     private MediaPlayer mMediaPlayer;
     private Uri mUri;
@@ -36,12 +40,28 @@ public class MyMusicService extends Service {
     }
 
     @Override
+    public void onCreate() {
+        super.onCreate();
+
+        mCursor = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                null,
+                null,
+                null,
+                null);
+    }
+
+    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         String action = intent.getAction();
 
         switch (action) {
             case ACTION_PLAY:
-                Uri uri = intent.getParcelableExtra("uri");
+                int position = intent.getIntExtra("position", -1);
+                if (position != -1) {
+                    mCursor.moveToPosition(position);
+                }
+                Uri uri = Uri.parse(mCursor.getString(mCursor.getColumnIndex(MediaStore.Audio.Media.DATA)));
+
                 if (mMediaPlayer.isPlaying()) {
                     pause();
                 }
@@ -58,10 +78,35 @@ public class MyMusicService extends Service {
                 break;
             case ACTION_PAUSE:
                 pause();
+                stopForeground(false);
                 break;
             case ACTION_PREV:
+                if (mMediaPlayer.isPlaying()) {
+                    pause();
+                }
+                if (mCursor.moveToPrevious()) {
+                    mUri = Uri.parse(mCursor.getString(mCursor.getColumnIndex(MediaStore.Audio.Media.DATA)));
+                    try {
+                        play(mUri);
+                        startForeground(1, createNotification());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
                 break;
             case ACTION_NEXT:
+                if (mMediaPlayer.isPlaying()) {
+                    pause();
+                }
+                if (mCursor.moveToNext()) {
+                    mUri = Uri.parse(mCursor.getString(mCursor.getColumnIndex(MediaStore.Audio.Media.DATA)));
+                    try {
+                        play(mUri);
+                        startForeground(1, createNotification());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
                 break;
         }
 
@@ -69,18 +114,26 @@ public class MyMusicService extends Service {
     }
 
     private Notification createNotification() {
+        MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
+        mediaMetadataRetriever.setDataSource(this, mUri);
+        byte[] picture = mediaMetadataRetriever.getEmbeddedPicture();
+
+        Bitmap bitmap = null;
+        if (picture != null) {
+            bitmap = BitmapFactory.decodeByteArray(picture, 0, picture.length);
+        } else {
+            bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+        }
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 
-        RemoteViews views = new RemoteViews(getPackageName(),
-                R.layout.notification);
+        builder.setContentTitle("뮤직플레이어");
+        builder.setContentText("노래 제목");
 
-        builder.setContent(views);
+        builder.setStyle(new NotificationCompat.MediaStyle());
 
-//        builder.setContentTitle("뮤직플레이어");
-//        builder.setContentText("노래 제목");
         builder.setSmallIcon(R.mipmap.ic_launcher);
-        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(),
-                R.mipmap.ic_launcher));
+        builder.setLargeIcon(bitmap);
 
         Intent intent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
