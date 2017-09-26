@@ -1,5 +1,6 @@
 package com.example.materialdesign;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -16,12 +17,14 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private Toolbar mToolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -34,12 +37,19 @@ public class MainActivity extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container, new ColorFragment())
+                    .commit();
+        }
     }
 
     @Override
@@ -81,9 +91,15 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            mToolbar.setBackgroundColor(Color.RED);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, new ColorFragment())
+                    .commit();
         } else if (id == R.id.nav_gallery) {
-
+            mToolbar.setBackgroundColor(Color.BLUE);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, new ColorFragment())
+                    .commit();
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
