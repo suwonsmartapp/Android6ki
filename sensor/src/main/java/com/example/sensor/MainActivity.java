@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.example.sensor.ballgame.BallGameActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -19,5 +21,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void startCompassActivity(View view) {
         startActivity(new Intent(this, CompassActivity.class));
+    }
+
+    public void startBallgameActivity(View view) {
+        startActivity(new Intent(this, BallGameActivity.class));
     }
 }
