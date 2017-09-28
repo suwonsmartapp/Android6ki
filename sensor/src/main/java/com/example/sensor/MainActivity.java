@@ -16,4 +16,8 @@ public class MainActivity extends AppCompatActivity {
     public void startLightSensorActivity(View view) {
         startActivity(new Intent(this, LightActivity.class));
     }
+
+    public void startCompassActivity(View view) {
+        startActivity(new Intent(this, CompassActivity.class));
+    }
 }

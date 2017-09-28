@@ -7,9 +7,16 @@
     tools:context="com.example.sensor.MainActivity">
 
     <Button
-        android:text="조도 센서"
-        android:onClick="startLightSensorActivity"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:onClick="startLightSensorActivity"
+        android:text="조도 센서" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="startCompassActivity"
+        android:text="콤파스" />
+
 
 </LinearLayout>
