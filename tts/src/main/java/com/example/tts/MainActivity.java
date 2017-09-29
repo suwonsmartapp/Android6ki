@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -69,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     String answer = result.get(0);
 
+                    handleMessage(answer);
+
 
                     mTts.speak(answer, TextToSpeech.QUEUE_FLUSH, null);
                 }
@@ -76,5 +79,15 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
+    }
+
+    private void handleMessage(String answer) {
+        if (answer.contains("종료")) {
+            finish();
+        }
+    }
+
+    public void startVoiceCommand(View view) {
+        promptSpeechInput();
     }
 }
