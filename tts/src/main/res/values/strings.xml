@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Tts</string>
+    <string name="command_finish">finish</string>
 </resources>
