@@ -1,4 +1,4 @@
-package com.example.dbfirebaseexam;
+package com.example.dbfirebaseexam.model;
 
 public class User {
     private String key;
