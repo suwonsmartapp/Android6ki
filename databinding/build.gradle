@@ -2,10 +2,10 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
-        applicationId "com.example.dbfirebaseexam"
+        applicationId "com.example.databinding"
         minSdkVersion 17
         targetSdkVersion 26
         versionCode 1
@@ -16,7 +16,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -32,9 +32,5 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.google.firebase:firebase-database:10.0.1'
     testCompile 'junit:junit:4.12'
 }
-
-
-apply plugin: 'com.google.gms.google-services'

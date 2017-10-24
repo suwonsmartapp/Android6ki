@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="activity"
+            type="com.example.databinding.MainActivity" />
+
+        <variable
+            name="user"
+            type="com.example.databinding.User" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.example.databinding.MainActivity">
+
+        <Button
+            android:id="@+id/test_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{activity::onClick}"
+            android:text="버튼" />
+
+        <TextView
+            android:id="@+id/hello_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{user.firstName}" />
+
+    </LinearLayout>
+</layout>
