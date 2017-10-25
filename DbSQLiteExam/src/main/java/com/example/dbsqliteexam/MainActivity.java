@@ -1,8 +1,8 @@
 package com.example.dbsqliteexam;
 
-import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -43,15 +43,8 @@ public class MainActivity extends AppCompatActivity {
             mThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
-                    ContentValues values = new ContentValues();
-                    values.put(UserContract.UserEntry.COLUMN_NAME_EMAIL, mEmailEdit.getText().toString());
-                    values.put(UserContract.UserEntry.COLUMN_NAME_PASSWORD, mPasswordEdit.getText().toString());
-
-                    long newId = db.insert(UserContract.UserEntry.TABLE_NAME,
-                            null,
-                            values);
+                    long newId = mDbHelper.insert(mEmailEdit.getText().toString(),
+                            mPasswordEdit.getText().toString());
 
                     if (newId == -1) {
                         runOnUiThread(new Runnable() {
@@ -80,41 +73,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void SignIn(View view) {
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        boolean isSignIn = mDbHelper.signIn(mEmailEdit.getText().toString(),
+                mPasswordEdit.getText().toString());
 
-        Cursor cursor = db.query(UserContract.UserEntry.TABLE_NAME,
-                null,
-                UserContract.UserEntry.COLUMN_NAME_EMAIL + "='"
-                        + mEmailEdit.getText().toString() + "' AND "
-                        + UserContract.UserEntry.COLUMN_NAME_PASSWORD + "='"
-                        + mPasswordEdit.getText().toString() + "'",
-                null,
-                null,
-                null,
-                null);
-
-        if (cursor != null) {
-            if (cursor.getCount() > 0) {
-                Toast.makeText(this, "성공" + cursor.getCount(), Toast.LENGTH_SHORT).show();
-                cursor.close();
-            } else {
-                Toast.makeText(this, "실패", Toast.LENGTH_SHORT).show();
-            }
+        if (isSignIn) {
+            Toast.makeText(this, "성공", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "실패", Toast.LENGTH_SHORT).show();
         }
     }
 
     public void updatePassword(View view) {
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(UserContract.UserEntry.COLUMN_NAME_PASSWORD, mNewPasswordEdit.getText().toString());
-
-        int count = db.update(UserContract.UserEntry.TABLE_NAME,
-                values,
-                UserContract.UserEntry.COLUMN_NAME_EMAIL + " = ?",
-                new String[]{mEmailEdit.getText().toString()});
-
-        if (count > 0) {
+        if (mDbHelper.updatePassword(mEmailEdit.getText().toString(),
+                mNewPasswordEdit.getText().toString())) {
             showResult();
         }
     }
@@ -136,11 +107,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showResult() {
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
-
-        Cursor cursor = db.query(UserContract.UserEntry.TABLE_NAME,
-                null,
-                null,
+        Cursor cursor = getContentResolver().query(Uri.parse("content://com.example.databaseexam.provider/memo"),
                 null,
                 null,
                 null,
@@ -148,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
 
         if (cursor != null) {
             StringBuilder stringBuilder = new StringBuilder();
-            cursor.moveToFirst();   // 맨 앞의 앞 -1
             while (cursor.moveToNext()) {
                 String email = cursor.getString(cursor.getColumnIndexOrThrow(UserContract.UserEntry.COLUMN_NAME_EMAIL));
                 String password = cursor.getString(cursor.getColumnIndexOrThrow(UserContract.UserEntry.COLUMN_NAME_PASSWORD));

@@ -1,6 +1,8 @@
 package com.example.dbsqliteexam;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -55,5 +57,55 @@ public class UserDbHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE " + UserContract.UserEntry.TABLE_NAME);
         sqLiteDatabase.execSQL(SQL_CREATE_USER);
+    }
+
+    public long insert(ContentValues values) {
+        SQLiteDatabase db = getWritableDatabase();
+        long newId = db.insert(UserContract.UserEntry.TABLE_NAME,
+                null,
+                values);
+        return newId;
+    }
+
+    public long insert(String email, String password) {
+        ContentValues values = new ContentValues();
+        values.put(UserContract.UserEntry.COLUMN_NAME_EMAIL, email);
+        values.put(UserContract.UserEntry.COLUMN_NAME_PASSWORD, password);
+        return insert(values);
+    }
+
+    public boolean signIn(String email, String password) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cursor = db.query(UserContract.UserEntry.TABLE_NAME,
+                null,
+                UserContract.UserEntry.COLUMN_NAME_EMAIL + "='"
+                        + email + "' AND "
+                        + UserContract.UserEntry.COLUMN_NAME_PASSWORD + "='"
+                        + password + "'",
+                null,
+                null,
+                null,
+                null);
+
+        if (cursor == null) {
+            return false;
+        }
+
+        return cursor.getCount() > 0;
+    }
+
+    public boolean updatePassword(String oldPassword, String newPassword) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(UserContract.UserEntry.COLUMN_NAME_PASSWORD, newPassword);
+
+        int count = db.update(UserContract.UserEntry.TABLE_NAME,
+                values,
+                UserContract.UserEntry.COLUMN_NAME_EMAIL + " = ?",
+                new String[]{oldPassword});
+
+        return count > 0;
     }
 }
