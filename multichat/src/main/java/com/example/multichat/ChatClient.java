@@ -11,7 +11,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class ChatClient {
-    private final static String SERVER_HOST = "192.168.0.66";
+    private final static String SERVER_HOST = "suwonsmartapp.iptime.org";
     private final static int SERVER_PORT = 5000;
     private final static String NICKNAME = "오준석";
 
