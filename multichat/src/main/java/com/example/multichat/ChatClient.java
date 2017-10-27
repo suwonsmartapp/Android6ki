@@ -16,7 +16,7 @@ public class ChatClient {
     private final static String NICKNAME = "오준석";
 
     private Socket mSocket;
-    private String mName;
+    public String mName;
     private ClientWrite mClientWrite;
 
     public static void main(String[] args) {

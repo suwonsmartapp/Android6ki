@@ -2,10 +2,14 @@ package com.example.multichat;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.multichat.recycler.MessageRecyclerAdapter;
+import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -20,8 +24,12 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     @BindView(R.id.message_edit_text)
     EditText mMessageEditText;
-    @BindView(R.id.result_text_view)
-    TextView mResultTextView;
+    @BindView(R.id.message_recycler_view)
+    RecyclerView mMessageRecyclerView;
+
+    MessageRecyclerAdapter mAdapter;
+
+    private Gson mGson = new Gson();
 
     private ChatClient mChatClient;
 
@@ -32,6 +40,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(this,
+                LinearLayoutManager.VERTICAL, false);
+
+        mMessageRecyclerView.setLayoutManager(manager);
+
+        mAdapter = new MessageRecyclerAdapter();
+        mMessageRecyclerView.setAdapter(mAdapter);
 
         mChatClient = new ChatClient();
 
@@ -76,11 +92,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void handleMessage(String message) {
-        Log.d(TAG, "handleMessage: " + message);
+    private void handleMessage(String json) {
+        Log.d(TAG, "handleMessage: " + json);
 
-        mStringBuilder.append(message).append("\n");
-        mResultTextView.setText(mStringBuilder.toString());
+        mStringBuilder.append(json).append("\n");
+
+        // json 을 객체로
+        MsgInfo msgInfo = mGson.fromJson(json, MsgInfo.class);
+        if (msgInfo.getNickName().equals(mChatClient.mName)) {
+            msgInfo.setItemType(MessageRecyclerAdapter.TYPE_ME);
+        } else {
+            msgInfo.setItemType(MessageRecyclerAdapter.TYPE_YOU);
+        }
+        mAdapter.addItem(msgInfo);
+        mMessageRecyclerView.smoothScrollToPosition(mAdapter.getItemCount());
     }
 
     private void handleError(String message) {
