@@ -2,11 +2,12 @@ package com.example.customview;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
     private MyCustomView mMyCustomView;
+
+    private TouchView mTouchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,14 +16,19 @@ public class MainActivity extends AppCompatActivity {
 
         mMyCustomView = findViewById(R.id.custom_view);
 
-        mMyCustomView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        mTouchView = findViewById(R.id.touch_view);
 
-            }
-        });
+//        mMyCustomView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
 
-        mMyCustomView.showToast();
+//        mMyCustomView.showToast();
+
+
+        mTouchView.save();
     }
 
 }
