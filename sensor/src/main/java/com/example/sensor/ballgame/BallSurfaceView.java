@@ -17,12 +17,18 @@ import android.view.SurfaceView;
 
 import com.example.sensor.R;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class BallSurfaceView extends SurfaceView implements SurfaceHolder.Callback, Runnable {
     private Rect mRect;
 
     private Drawable mDrawable;
 
     private Ball mBall;
+
+    private final List<Missile> mMissileList = Collections.synchronizedList(new ArrayList<Missile>());
 
     private SensorManager mSensorManager;
     private float mPitch;
@@ -31,6 +37,22 @@ public class BallSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     private SurfaceHolder mHolder;
     private Thread mThread;
     private Sensor mSensor;
+
+    class MissileCreateThread extends Thread {
+        @Override
+        public void run() {
+            while (mThread != null) {
+                try {
+                    Thread.sleep(100);
+                    mMissileList.add(new Missile(mDrawable, mRect,
+                            100, -100,
+                            mBall.getX(), mBall.getY()));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
     public BallSurfaceView(Context context) {
         super(context);
@@ -100,6 +122,8 @@ public class BallSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         Paint p = new Paint();
         p.setColor(Color.WHITE);
 
+        new MissileCreateThread().start();
+
         while (mThread != null) {
             try {
                 Thread.sleep(10);
@@ -116,6 +140,13 @@ public class BallSurfaceView extends SurfaceView implements SurfaceHolder.Callba
                         mRect = new Rect(0, 0, getWidth(), getHeight());
 
                         mBall = new Ball(mDrawable, mRect);
+                    }
+
+                    synchronized (mMissileList) {
+                        for (Missile missile : mMissileList) {
+                            missile.move();
+                            missile.draw(canvas);
+                        }
                     }
 
                     mBall.move(mPitch, mRoll);

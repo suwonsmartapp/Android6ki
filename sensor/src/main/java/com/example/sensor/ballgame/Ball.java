@@ -38,6 +38,14 @@ public class Ball {
         mDy = 0;
     }
 
+    public double getX() {
+        return mRect.centerX();
+    }
+
+    public double getY() {
+        return mRect.centerY();
+    }
+
     public void move(float mPitch, float mRoll) {
         double dx = -Math.sin(Math.toRadians(mRoll))
                 * mAcceleration;
